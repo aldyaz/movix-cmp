@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.daemon.common.trimQuotes
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -7,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 val secretFolder = "$projectDir/build/generatedSecret"
@@ -39,6 +39,15 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+
+            implementation(libs.ktor.android)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.ios)
         }
 
         commonMain.dependencies {
@@ -53,6 +62,16 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
 
             implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization)
+
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.logging)
+            implementation(libs.ktor.auth)
+            implementation(libs.ktor.serialization)
+            implementation(libs.ktor.content.negotiation)
+
+            api(libs.koin.core)
+            implementation(libs.koin.compose)
         }
     }
 }
