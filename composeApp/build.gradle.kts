@@ -1,15 +1,26 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.buildConfig)
     kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
-val secretFolder = "$projectDir/build/generatedSecret"
+buildConfig {
+    val props = loadPropertiesFile("secret.properties")
+
+    packageName("com.aldyaz.movix")
+
+    useKotlinOutput()
+
+    buildConfigField("String", "API_KEY", "\"${props["API_KEY"]}\"")
+}
 
 kotlin {
     androidTarget {
@@ -30,10 +41,6 @@ kotlin {
         }
     }
 
-    sourceSets.commonMain.configure {
-        kotlin.srcDirs(secretFolder)
-    }
-
     sourceSets {
 
         androidMain.dependencies {
@@ -47,7 +54,11 @@ kotlin {
         }
 
         iosMain.dependencies {
-            implementation(libs.ktor.ios)
+            implementation(libs.ktor.darwin)
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.darwin)
         }
 
         commonMain.dependencies {
@@ -72,6 +83,9 @@ kotlin {
 
             api(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.core.viewmodel)
+
+            implementation(libs.circuit)
         }
     }
 }
@@ -82,7 +96,6 @@ android {
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources", secretFolder)
 
     defaultConfig {
         applicationId = "com.aldyaz.movix"
@@ -118,46 +131,14 @@ android {
     }
 }
 
-tasks.register("generateSecret") {
-    doLast {
-        generateSecretProp("secret.properties")
-    }
-}
-
-fun generateSecretProp(path: String) {
-    val propContent = file("$rootDir/$path").readText()
-    val propData = parseProperties(propContent)
-    var ktContent = "package ${android.namespace}\n\nobject SecretConfig {\n"
-    propData.forEach { (key, value) ->
-        ktContent += "    const val $key = $value\n"
-    }
-    ktContent += "}"
-    val folder = file(secretFolder)
-    if (!folder.exists()) {
-        folder.mkdirs()
+fun loadPropertiesFile(file: String): Map<*, *> {
+    val configPath = "../$file"
+    val props: Map<*, *> = if (file(configPath).exists()) {
+        Properties().apply {
+            load(FileInputStream(file(configPath)))
+        }
     } else {
-        val fileSecret = file("$secretFolder/SecretConfig.kt")
-        if (!fileSecret.exists()) {
-            fileSecret.createNewFile()
-        }
-        fileSecret.writeText(ktContent)
+        project.properties
     }
-}
-
-fun parseProperties(content: String): Map<String, Any> {
-    val props = mutableMapOf<String, Any>()
-    content.lines()
-        .filter { it.isNotBlank() }
-        .forEach { line ->
-            val key = line.substringBefore("=")
-            val rawValue = line.substringAfter("=")
-            val value: Any = when {
-                rawValue == "true" || rawValue == "false" -> rawValue.toBoolean()
-                rawValue.toIntOrNull() != null -> rawValue.toInt()
-                rawValue.toLongOrNull() != null -> rawValue.toLong()
-                else -> "\"$rawValue\""
-            }
-            props[key] = value
-        }
     return props
 }

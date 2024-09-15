@@ -2,6 +2,7 @@ rootProject.name = "MovixCMP"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
+
     repositories {
         google {
             mavenContent {
