@@ -57,10 +57,6 @@ kotlin {
             implementation(libs.ktor.darwin)
         }
 
-        nativeMain.dependencies {
-            implementation(libs.ktor.darwin)
-        }
-
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
