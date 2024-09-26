@@ -12,9 +12,9 @@ import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
+import com.aldyaz.movix.presentation.mapper.MovieDetailToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieItemToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
-import com.aldyaz.movix.presentation.model.MovieDetailPresentationModel
 import com.aldyaz.movix.presentation.viewmodel.MainMovieTabViewModel
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
@@ -54,7 +54,7 @@ val domainModule = module {
 val presentationModule = module {
     factoryOf(::MovieItemToPresentationMapper)
     factoryOf(::MovieListToPresentationMapper)
-    factoryOf(::MovieDetailPresentationModel)
+    factoryOf(::MovieDetailToPresentationMapper)
     viewModelOf(::MainViewModel)
     viewModelOf(::MainMovieTabViewModel)
     viewModelOf(::MovieDetailViewModel)
