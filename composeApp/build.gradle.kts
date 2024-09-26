@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.buildConfig)
     kotlin("plugin.serialization") version libs.versions.kotlin
+    alias(libs.plugins.androidParcelize)
 }
 
 buildConfig {
@@ -27,6 +28,10 @@ kotlin {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
+            freeCompilerArgs.addAll(
+                "-P",
+                "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.aldyaz.movix.Parcelize"
+            )
         }
     }
 
@@ -60,7 +65,8 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
-            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
@@ -79,9 +85,12 @@ kotlin {
 
             api(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(libs.koin.core.viewmodel)
 
             implementation(libs.circuit)
+            implementation(libs.circuit.gesture.navigation)
+            implementation(libs.kamel)
         }
     }
 }

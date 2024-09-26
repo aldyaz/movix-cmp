@@ -8,9 +8,12 @@ class MovieListToDomainMapper(
 ) : (MoviesDto) -> MovieListDomainModel {
 
     override fun invoke(p1: MoviesDto): MovieListDomainModel {
+        val results = p1.results.orEmpty()
         return MovieListDomainModel(
             page = p1.page ?: 0,
-            movies = p1.results?.map(movieToDomainMapper).orEmpty()
+            movies = List(results.size) {
+                movieToDomainMapper(results[it])
+            }
         )
     }
 }

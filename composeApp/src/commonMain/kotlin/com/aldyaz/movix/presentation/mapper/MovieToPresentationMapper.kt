@@ -3,6 +3,7 @@ package com.aldyaz.movix.presentation.mapper
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.presentation.model.MoviePresentationModel
 import com.aldyaz.movix.utils.TimeUtils
+import com.aldyaz.movix.utils.round
 
 class MovieToPresentationMapper : (MovieDomainModel) -> MoviePresentationModel {
 
@@ -16,7 +17,7 @@ class MovieToPresentationMapper : (MovieDomainModel) -> MoviePresentationModel {
             backdropPath = p1.backdropPath,
             releaseDate = p1.releaseDate,
             genres = p1.genres,
-            rating = p1.voteAverage.toFloat().div(2),
+            rating = p1.voteAverage.round(1),
             duration = TimeUtils.formatHourMinutes(p1.runtime)
         )
     }

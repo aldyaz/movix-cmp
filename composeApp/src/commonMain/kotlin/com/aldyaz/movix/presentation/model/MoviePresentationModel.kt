@@ -9,7 +9,7 @@ data class MoviePresentationModel(
     val backdropPath: String = "",
     val releaseDate: String = "",
     val genres: List<String> = emptyList(),
-    val rating: Float = 0f,
+    val rating: Double = 0.0,
     val ratingStar: Float = 0f,
     val duration: String = ""
 )

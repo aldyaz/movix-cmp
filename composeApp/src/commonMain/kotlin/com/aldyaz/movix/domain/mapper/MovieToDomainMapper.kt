@@ -2,10 +2,12 @@ package com.aldyaz.movix.domain.mapper
 
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.source.remote.model.MovieDto
+import com.aldyaz.movix.utils.round
 
 class MovieToDomainMapper : (MovieDto) -> MovieDomainModel {
 
     override fun invoke(p1: MovieDto): MovieDomainModel {
+        val genres = p1.genres.orEmpty()
         return MovieDomainModel(
             id = p1.id ?: 0L,
             title = p1.title.orEmpty(),
@@ -14,9 +16,9 @@ class MovieToDomainMapper : (MovieDto) -> MovieDomainModel {
             posterPath = p1.posterPath.orEmpty(),
             backdropPath = p1.backdropPath.orEmpty(),
             releaseDate = p1.releaseDate.orEmpty(),
-            genres = p1.genres?.map {
-                it.name.orEmpty()
-            }.orEmpty(),
+            genres = List(genres.size) {
+                genres[it].name.orEmpty()
+            },
             voteAverage = p1.voteAverage ?: 0.0,
             runtime = p1.runtime ?: 0
         )

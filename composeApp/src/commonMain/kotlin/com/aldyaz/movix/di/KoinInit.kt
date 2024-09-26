@@ -8,6 +8,7 @@ fun initKoin(config: KoinAppDeclaration? = null) {
         config?.invoke(this)
         modules(
             platformModule,
+            coreModule,
             dataModule,
             domainModule,
             presentationModule

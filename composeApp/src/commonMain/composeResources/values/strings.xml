@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name">Movix</string>
+    <string name="label_search_descriptor">search</string>
+    <string name="rating_format">%.1f</string>
+    <string name="label_now_playing">Now Playing</string>
+    <string name="label_popular">Popular</string>
+    <string name="label_top_rated">Top Rated</string>
+</resources>

@@ -8,7 +8,7 @@ import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetPopularMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetTopRatedMoviesUseCase
 import com.aldyaz.movix.presentation.intent.MainTabViewIntent
-import com.aldyaz.movix.presentation.mapper.MovieToPresentationMapper
+import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
 import com.aldyaz.movix.presentation.state.MainMovieTabState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ class MainMovieTabViewModel(
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
-    private val movieToPresentationMapper: MovieToPresentationMapper,
+    private val movieListToPresentationMapper: MovieListToPresentationMapper,
     private val coroutinesContextProvider: CoroutinesContextProvider
 ) : BaseViewModel<MainTabViewIntent>() {
 
@@ -71,7 +71,7 @@ class MainMovieTabViewModel(
                     it.copy(
                         loading = false,
                         error = false,
-                        movies = result.data.movies.map(movieToPresentationMapper)
+                        movies = movieListToPresentationMapper(result.data.movies)
                     )
                 }
             }
@@ -100,7 +100,7 @@ class MainMovieTabViewModel(
                     it.copy(
                         loading = false,
                         error = false,
-                        movies = result.data.movies.map(movieToPresentationMapper)
+                        movies = movieListToPresentationMapper(result.data.movies)
                     )
                 }
             }
@@ -129,7 +129,7 @@ class MainMovieTabViewModel(
                     it.copy(
                         loading = false,
                         error = false,
-                        movies = result.data.movies.map(movieToPresentationMapper)
+                        movies = movieListToPresentationMapper(result.data.movies)
                     )
                 }
             }
