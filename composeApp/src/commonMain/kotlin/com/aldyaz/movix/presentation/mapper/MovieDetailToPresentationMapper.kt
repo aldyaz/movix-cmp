@@ -1,14 +1,14 @@
 package com.aldyaz.movix.presentation.mapper
 
 import com.aldyaz.movix.domain.model.MovieDomainModel
-import com.aldyaz.movix.presentation.model.MoviePresentationModel
+import com.aldyaz.movix.presentation.model.MovieDetailPresentationModel
 import com.aldyaz.movix.utils.TimeUtils
 import com.aldyaz.movix.utils.round
 
-class MovieToPresentationMapper : (MovieDomainModel) -> MoviePresentationModel {
+class MovieDetailToPresentationMapper : (MovieDomainModel) -> MovieDetailPresentationModel {
 
-    override fun invoke(p1: MovieDomainModel): MoviePresentationModel {
-        return MoviePresentationModel(
+    override fun invoke(p1: MovieDomainModel): MovieDetailPresentationModel {
+        return MovieDetailPresentationModel(
             id = p1.id,
             title = p1.title,
             originalTitle = p1.originalTitle,

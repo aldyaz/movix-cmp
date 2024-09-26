@@ -9,4 +9,8 @@ sealed class Route : Screen, Parcelable {
 
     data object Main : Route()
 
+    data class Detail(
+        val movieId: Long
+    ) : Route()
+
 }

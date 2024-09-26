@@ -1,6 +1,6 @@
 package com.aldyaz.movix.presentation.model
 
-data class MoviePresentationModel(
+data class MovieDetailPresentationModel(
     val id: Long = 0L,
     val title: String = "",
     val originalTitle: String = "",

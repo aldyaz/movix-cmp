@@ -9,12 +9,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.aldyaz.movix.presentation.model.MoviePresentationModel
+import com.aldyaz.movix.presentation.model.MovieItemPresentationModel
 import com.aldyaz.movix.utils.MovieImageApi
 
 @Composable
 fun MovieRowList(
-    items: List<MoviePresentationModel>,
+    items: List<MovieItemPresentationModel>,
     onClickItem: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {

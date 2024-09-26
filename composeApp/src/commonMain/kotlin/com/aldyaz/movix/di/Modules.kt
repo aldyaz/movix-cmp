@@ -12,10 +12,12 @@ import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
+import com.aldyaz.movix.presentation.mapper.MovieItemToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
-import com.aldyaz.movix.presentation.mapper.MovieToPresentationMapper
+import com.aldyaz.movix.presentation.model.MovieDetailPresentationModel
 import com.aldyaz.movix.presentation.viewmodel.MainMovieTabViewModel
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
+import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
 import com.aldyaz.movix.source.remote.KtorTmdbRemoteService
 import com.aldyaz.movix.source.remote.TmdbRemoteService
 import org.koin.core.module.Module
@@ -50,8 +52,10 @@ val domainModule = module {
 }
 
 val presentationModule = module {
-    factoryOf(::MovieToPresentationMapper)
+    factoryOf(::MovieItemToPresentationMapper)
     factoryOf(::MovieListToPresentationMapper)
+    factoryOf(::MovieDetailPresentationModel)
     viewModelOf(::MainViewModel)
     viewModelOf(::MainMovieTabViewModel)
+    viewModelOf(::MovieDetailViewModel)
 }

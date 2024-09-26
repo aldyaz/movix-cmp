@@ -36,6 +36,9 @@ fun AppNavigation() {
                         modifier = modifier
                     )
                 }
+
+                is Route.Detail -> {
+                }
             }
         }
         .build()
