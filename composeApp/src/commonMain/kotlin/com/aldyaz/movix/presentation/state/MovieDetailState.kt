@@ -8,6 +8,8 @@ data class MovieDetailState(
     val movie: MovieDetailPresentationModel = MovieDetailPresentationModel()
 ) {
 
+    val success = !loading && !error
+
     companion object {
         val Initial = MovieDetailState()
     }

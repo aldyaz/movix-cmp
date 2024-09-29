@@ -6,4 +6,5 @@
     <string name="label_now_playing">Now Playing</string>
     <string name="label_popular">Popular</string>
     <string name="label_top_rated">Top Rated</string>
+    <string name="label_overview">Overview</string>
 </resources>

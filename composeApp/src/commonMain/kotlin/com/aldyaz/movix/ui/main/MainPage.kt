@@ -9,6 +9,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.aldyaz.movix.base.ui.component.MainAppBar
+import com.aldyaz.movix.navigation.DetailScreen
+import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.ui.discover.MovieDiscoverTab
 import com.aldyaz.movix.ui.discover.TvDiscoverTab
@@ -18,6 +20,7 @@ fun MainPage(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
+    val navigator = LocalNavigator.current
     val selectedTab by viewModel.selectedTab
     val tabs by remember {
         mutableStateOf(enumValues<MainTabType>())
@@ -27,7 +30,14 @@ fun MainPage(
         modifier = modifier,
         tabs = tabs,
         selectedTab = selectedTab,
-        onSelectTab = viewModel::selectTab
+        onSelectTab = viewModel::selectTab,
+        onNavigateToDetail = {
+            navigator.goTo(
+                DetailScreen(
+                    movieId = it
+                )
+            )
+        }
     )
 }
 
@@ -36,6 +46,7 @@ private fun MainScaffold(
     tabs: Array<MainTabType>,
     selectedTab: MainTabType,
     onSelectTab: (MainTabType) -> Unit,
+    onNavigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -60,7 +71,7 @@ private fun MainScaffold(
                     when (type) {
                         MainTabType.MOVIE -> {
                             MovieDiscoverTab(
-                                onNavigateToDetail = {},
+                                onNavigateToDetail = onNavigateToDetail,
                                 modifier = contentModifier
                             )
                         }

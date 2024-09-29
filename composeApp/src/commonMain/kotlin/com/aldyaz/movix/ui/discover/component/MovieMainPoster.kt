@@ -1,19 +1,15 @@
 package com.aldyaz.movix.ui.discover.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -24,18 +20,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
+import com.aldyaz.movix.ui.common.component.MoviePoster
 
 @Composable
-fun MoviePoster(
+fun MovieMainPoster(
     title: String,
     imageUrl: String,
     rating: Double,
@@ -54,24 +45,9 @@ fun MoviePoster(
                 }
             )
     ) {
-        val painterResource = asyncPainterResource(imageUrl) {
-            coroutineContext = Job() + Dispatchers.IO
-        }
-        KamelImage(
-            resource = painterResource,
-            contentDescription = contentDescription,
-            onLoading = {
-                Box(
-                    modifier = Modifier
-                        .posterSize()
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color.Gray.copy(alpha = 0.5f))
-                )
-            },
-            modifier = Modifier
-                .posterSize()
-                .aspectRatio(2f / 3f)
-                .clip(RoundedCornerShape(8.dp))
+        MoviePoster(
+            imageUrl = imageUrl,
+            contentDescription = contentDescription
         )
         Text(
             text = title.uppercase(),
@@ -88,8 +64,7 @@ fun MoviePoster(
                 )
         )
         Row(
-            modifier = Modifier.height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.wrapContentWidth()
         ) {
             Icon(
                 imageVector = Icons.Filled.Star,
@@ -106,8 +81,3 @@ fun MoviePoster(
         }
     }
 }
-
-private fun Modifier.posterSize() = size(
-    width = 120.dp,
-    height = 180.dp
-)

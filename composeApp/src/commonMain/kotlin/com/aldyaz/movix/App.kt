@@ -1,55 +1,54 @@
 package com.aldyaz.movix
 
 import androidx.compose.runtime.Composable
-import com.aldyaz.movix.navigation.Route
-import com.aldyaz.movix.presentation.viewmodel.MainViewModel
-import com.aldyaz.movix.ui.main.MainPage
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import com.aldyaz.movix.navigation.LocalNavigator
+import com.aldyaz.movix.navigation.MovixNavigator
 import com.aldyaz.movix.ui.theme.AppTheme
-import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.backstack.SaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
-import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuit.runtime.Navigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
-import org.koin.compose.viewmodel.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
-fun App() {
-    AppTheme {
-        AppNavigation()
+fun App(
+    backStack: SaveableBackStack,
+    navigator: Navigator
+) {
+
+    val circuit: Circuit = koinInject()
+    val movixNavigator = remember(navigator) {
+        MovixNavigator(navigator)
+    }
+
+    CompositionLocalProvider(LocalNavigator provides movixNavigator) {
+        CircuitCompositionLocals(circuit) {
+            AppTheme {
+                AppContent(
+                    navigator = movixNavigator,
+                    backStack = backStack
+                )
+            }
+        }
     }
 }
 
 @Composable
-fun AppNavigation() {
-    val backStack = rememberSaveableBackStack(root = Route.Main)
-    val navigator = rememberCircuitNavigator(backStack) { result ->
-        // TODO: On quit
-    }
-    val circuit = Circuit.Builder()
-        .setOnUnavailableContent { screen, modifier ->
-            when (screen) {
-                is Route.Main -> {
-                    val viewModel: MainViewModel = koinViewModel()
-                    MainPage(
-                        viewModel = viewModel,
-                        modifier = modifier
-                    )
-                }
-
-                is Route.Detail -> {
-                }
-            }
-        }
-        .build()
-
-    CircuitCompositionLocals(circuit) {
-        NavigableCircuitContent(
-            navigator = navigator,
-            backStack = backStack,
-            decoration = GestureNavigationDecoration {
+fun AppContent(
+    navigator: Navigator,
+    backStack: SaveableBackStack
+) {
+    NavigableCircuitContent(
+        navigator = navigator,
+        backStack = backStack,
+        decoration = remember(navigator) {
+            GestureNavigationDecoration {
                 navigator.pop()
             }
-        )
-    }
+        }
+    )
 }

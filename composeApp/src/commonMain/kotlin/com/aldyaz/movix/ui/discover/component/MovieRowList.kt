@@ -27,7 +27,7 @@ fun MovieRowList(
             items = items,
             key = { item -> item.id }
         ) { item ->
-            MoviePoster(
+            MovieMainPoster(
                 title = item.title,
                 imageUrl = MovieImageApi.imageW500Url(item.posterPath),
                 rating = item.rating,

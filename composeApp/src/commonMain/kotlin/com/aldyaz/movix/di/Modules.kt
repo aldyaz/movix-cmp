@@ -12,6 +12,7 @@ import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
+import com.aldyaz.movix.navigation.CircuitUiFactory
 import com.aldyaz.movix.presentation.mapper.MovieDetailToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieItemToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
@@ -20,6 +21,8 @@ import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
 import com.aldyaz.movix.source.remote.KtorTmdbRemoteService
 import com.aldyaz.movix.source.remote.TmdbRemoteService
+import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.runtime.ui.Ui
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -58,4 +61,15 @@ val presentationModule = module {
     viewModelOf(::MainViewModel)
     viewModelOf(::MainMovieTabViewModel)
     viewModelOf(::MovieDetailViewModel)
+}
+
+val uiModule = module {
+    factory<Ui.Factory> {
+        CircuitUiFactory()
+    }
+    factory {
+        Circuit.Builder()
+            .addUiFactory(get())
+            .build()
+    }
 }
