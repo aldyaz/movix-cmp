@@ -1,5 +1,6 @@
 package com.aldyaz.movix.ui.detail
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,7 +52,9 @@ fun MovieDetailScaffold(
         MovieContent(
             uiState = uiState,
             onRetryClick = onRetry,
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
         )
     }
 }

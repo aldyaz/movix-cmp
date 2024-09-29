@@ -1,8 +1,10 @@
 package com.aldyaz.movix
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.navigation.MovixNavigator
 import com.aldyaz.movix.ui.theme.AppTheme
@@ -55,6 +57,7 @@ fun AppContent(
             GestureNavigationDecoration {
                 navigator.pop()
             }
-        }
+        },
+        modifier = Modifier.fillMaxSize()
     )
 }
