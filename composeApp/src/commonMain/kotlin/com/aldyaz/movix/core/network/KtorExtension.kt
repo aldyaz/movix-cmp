@@ -9,6 +9,7 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.accept
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
@@ -33,7 +34,7 @@ fun <T : HttpClientEngineConfig> HttpClientConfig<T>.defaultContentNegotiation()
 fun <T : HttpClientEngineConfig> HttpClientConfig<T>.defaultLogging(
     onLog: ((String) -> Unit)? = null
 ) {
-    install(Logging) {
+    Logging {
         logger = object : Logger {
             override fun log(message: String) {
                 onLog?.invoke(message)
@@ -51,5 +52,12 @@ fun HttpClientConfig<*>.defaultHttpRequest() {
             takeFrom(NetworkConst.BASE_URL)
             parameters.append(NetworkConst.API_KEY_PATH, BuildConfig.API_KEY)
         }
+    }
+}
+
+fun HttpClientConfig<*>.kamelImageLogger() {
+    Logging {
+        logger = Logger.SIMPLE
+        level = LogLevel.INFO
     }
 }

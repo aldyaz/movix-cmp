@@ -12,10 +12,13 @@ import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuitx.gesturenavigation.GestureNavigationDecoration
+import io.kamel.core.config.KamelConfig
+import io.kamel.image.config.LocalKamelConfig
 import org.koin.compose.koinInject
 
 @Composable
 fun App(
+    kamelConfig: KamelConfig,
     backStack: SaveableBackStack,
     navigator: Navigator
 ) {
@@ -25,7 +28,10 @@ fun App(
         MovixNavigator(navigator)
     }
 
-    CompositionLocalProvider(LocalNavigator provides movixNavigator) {
+    CompositionLocalProvider(
+        LocalKamelConfig provides kamelConfig,
+        LocalNavigator provides movixNavigator
+    ) {
         CircuitCompositionLocals(circuit) {
             AppTheme {
                 AppContent(

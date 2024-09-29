@@ -43,9 +43,6 @@ import com.aldyaz.movix.ui.common.component.MoviePoster
 import com.aldyaz.movix.utils.MovieImageApi
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.label_overview
 import org.jetbrains.compose.resources.stringResource
@@ -65,10 +62,7 @@ fun DetailHeaderSection(
         modifier = modifier
     ) {
         val backdropPainterResource = asyncPainterResource(
-            data = MovieImageApi.imageW780Url(backdropPath),
-            block = {
-                coroutineContext = Job() + Dispatchers.IO
-            }
+            data = MovieImageApi.imageW780Url(backdropPath)
         )
         KamelImage(
             resource = backdropPainterResource,

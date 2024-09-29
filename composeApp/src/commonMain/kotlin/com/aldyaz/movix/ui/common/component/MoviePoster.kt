@@ -12,9 +12,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.Job
 
 @Composable
 fun MoviePoster(
@@ -22,9 +19,7 @@ fun MoviePoster(
     modifier: Modifier = Modifier,
     contentDescription: String? = null
 ) {
-    val painterResource = asyncPainterResource(imageUrl) {
-        coroutineContext = Job() + Dispatchers.IO
-    }
+    val painterResource = asyncPainterResource(imageUrl)
     KamelImage(
         resource = painterResource,
         contentDescription = contentDescription,
