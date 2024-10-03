@@ -46,7 +46,6 @@ import io.kamel.image.asyncPainterResource
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.label_overview
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun DetailHeaderSection(
@@ -98,18 +97,17 @@ fun DetailHeaderSection(
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 TextIcon(
                     icon = Icons.Filled.Star,
-                    text = rating.toString(),
-                    iconTint = MaterialTheme.colorScheme.tertiary
+                    text = rating.toString()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 TextIcon(
                     icon = Icons.Filled.CalendarToday,
                     text = releaseDate
                 )
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(10.dp))
                 TextIcon(
                     icon = Icons.Filled.AccessTime,
                     text = showTimeDuration
