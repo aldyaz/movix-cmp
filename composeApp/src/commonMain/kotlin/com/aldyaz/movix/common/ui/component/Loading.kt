@@ -1,4 +1,4 @@
-package com.aldyaz.movix.base.ui.component
+package com.aldyaz.movix.common.ui.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio

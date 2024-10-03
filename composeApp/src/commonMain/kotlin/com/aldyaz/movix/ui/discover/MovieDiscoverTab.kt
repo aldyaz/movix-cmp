@@ -13,9 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aldyaz.movix.base.ui.component.BasicCircularLoading
-import com.aldyaz.movix.base.ui.component.BasicError
-import com.aldyaz.movix.base.ui.component.ScreenEnterObserver
+import com.aldyaz.movix.common.ui.component.BasicCircularLoading
+import com.aldyaz.movix.common.ui.component.BasicError
+import com.aldyaz.movix.common.ui.component.ScreenEnterObserver
 import com.aldyaz.movix.presentation.intent.MainTabViewIntent
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
 import com.aldyaz.movix.presentation.state.MainMovieTabState

@@ -1,4 +1,4 @@
-package com.aldyaz.movix.base.ui.component
+package com.aldyaz.movix.common.ui.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
