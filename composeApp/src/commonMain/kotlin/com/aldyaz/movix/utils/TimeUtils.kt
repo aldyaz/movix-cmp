@@ -7,9 +7,11 @@ import kotlinx.datetime.format.char
 
 object TimeUtils {
 
+    fun minutesTotal(millis: Int): Int = millisToMinutes(millis)
+
     fun formatHourMinutes(millis: Int): String {
-        val hours = millis.div(60)
-        val minutes = millis % 60
+        val hours = millisToHours(millis)
+        val minutes = millisToMinutes(millis)
         val time = LocalTime(
             hour = hours,
             minute = minutes
@@ -22,4 +24,8 @@ object TimeUtils {
             }
         )
     }
+
+    private fun millisToHours(millis: Int) = millis.div(60)
+
+    private fun millisToMinutes(millis: Int) = millis % 60
 }

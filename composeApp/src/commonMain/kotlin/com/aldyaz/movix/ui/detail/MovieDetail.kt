@@ -41,6 +41,9 @@ import com.aldyaz.movix.ui.detail.component.DetailHeaderSection
 import com.aldyaz.movix.ui.detail.component.DetailOverviewSection
 import com.aldyaz.movix.ui.detail.component.GenresHorizontalScrollable
 import com.aldyaz.movix.utils.KeyConst
+import movixcmp.composeapp.generated.resources.Res
+import movixcmp.composeapp.generated.resources.label_minutes
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MovieDetail(
@@ -143,7 +146,8 @@ fun MovieContent(
                                 rating = data.rating,
                                 posterPath = data.posterPath,
                                 backdropPath = data.backdropPath,
-                                showTimeDuration = data.duration
+                                showTimeDuration = "${data.duration} " +
+                                    stringResource(Res.string.label_minutes)
                             )
                         }
                     )
