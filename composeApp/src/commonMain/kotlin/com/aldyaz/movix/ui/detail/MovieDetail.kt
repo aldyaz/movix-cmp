@@ -174,13 +174,16 @@ fun MovieContent(
                         }
                     )
 
-                    item {
-                        Spacer(
-                            modifier = Modifier
-                                .height(300.dp)
-                                .fillParentMaxWidth()
-                        )
-                    }
+                    item(
+                        key = KeyConst.DETAIL_SPACER,
+                        content = {
+                            Spacer(
+                                modifier = Modifier
+                                    .height(300.dp)
+                                    .fillParentMaxWidth()
+                            )
+                        }
+                    )
                 }
             )
         }

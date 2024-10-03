@@ -225,12 +225,3 @@ private fun TextIcon(
         )
     }
 }
-
-@Preview
-@Composable
-private fun TextIconPreview() {
-    TextIcon(
-        icon = Icons.Filled.CalendarToday,
-        text = "January 2022"
-    )
-}
