@@ -64,6 +64,7 @@ fun MovieMainPoster(
                 )
         )
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.wrapContentWidth()
         ) {
             Icon(
@@ -71,7 +72,7 @@ fun MovieMainPoster(
                 contentDescription = title,
                 modifier = Modifier.size(12.dp)
             )
-            Spacer(modifier = Modifier.width(1.dp))
+            Spacer(modifier = Modifier.width(2.dp))
             Text(
                 text = rating.toString(),
                 style = MaterialTheme.typography.labelSmall.copy(
