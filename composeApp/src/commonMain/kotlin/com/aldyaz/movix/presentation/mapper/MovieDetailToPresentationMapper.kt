@@ -2,6 +2,7 @@ package com.aldyaz.movix.presentation.mapper
 
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.presentation.model.MovieDetailPresentationModel
+import com.aldyaz.movix.utils.DateUtils
 import com.aldyaz.movix.utils.round
 
 class MovieDetailToPresentationMapper : (MovieDomainModel) -> MovieDetailPresentationModel {
@@ -14,7 +15,7 @@ class MovieDetailToPresentationMapper : (MovieDomainModel) -> MovieDetailPresent
             overview = p1.overview,
             posterPath = p1.posterPath,
             backdropPath = p1.backdropPath,
-            releaseDate = p1.releaseDate,
+            releaseDate = DateUtils.format(p1.releaseDate),
             genres = p1.genres,
             rating = p1.voteAverage.round(1),
             duration = p1.runtime
