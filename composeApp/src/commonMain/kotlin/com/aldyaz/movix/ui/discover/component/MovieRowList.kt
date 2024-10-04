@@ -20,7 +20,7 @@ fun MovieRowList(
 ) {
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(12.dp)
     ) {
         items(

@@ -17,7 +17,7 @@ import io.kamel.image.asyncPainterResource
 fun MoviePoster(
     imageUrl: String,
     modifier: Modifier = Modifier,
-    contentDescription: String? = null
+    contentDescription: String? = null,
 ) {
     val painterResource = asyncPainterResource(imageUrl)
     KamelImage(
@@ -27,14 +27,14 @@ fun MoviePoster(
             Box(
                 modifier = Modifier
                     .posterSize()
-                    .clip(RoundedCornerShape(8.dp))
+                    .defaultPosterRoundedCorner()
                     .background(Color.Gray.copy(alpha = 0.5f))
             )
         },
         modifier = Modifier
             .posterSize()
             .defaultPosterAspectRation()
-            .clip(RoundedCornerShape(8.dp))
+            .defaultPosterRoundedCorner()
             .then(modifier)
     )
 }
@@ -45,3 +45,7 @@ private fun Modifier.posterSize() = size(
 )
 
 private fun Modifier.defaultPosterAspectRation() = aspectRatio(2f / 3f)
+
+private fun Modifier.defaultPosterRoundedCorner() = clip(
+    RoundedCornerShape(24.dp)
+)
