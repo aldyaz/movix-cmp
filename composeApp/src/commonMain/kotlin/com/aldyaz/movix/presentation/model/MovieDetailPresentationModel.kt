@@ -11,5 +11,6 @@ data class MovieDetailPresentationModel(
     val genres: List<String> = emptyList(),
     val rating: Double = 0.0,
     val ratingStar: Float = 0f,
-    val duration: Int = 0
+    val duration: Int = 0,
+    val languages: List<String> = emptyList()
 )

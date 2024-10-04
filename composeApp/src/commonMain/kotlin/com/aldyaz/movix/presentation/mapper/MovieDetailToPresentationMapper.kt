@@ -18,7 +18,8 @@ class MovieDetailToPresentationMapper : (MovieDomainModel) -> MovieDetailPresent
             releaseDate = DateUtils.format(p1.releaseDate),
             genres = p1.genres,
             rating = p1.voteAverage.round(1),
-            duration = p1.runtime
+            duration = p1.runtime,
+            languages = p1.languages
         )
     }
 }

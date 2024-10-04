@@ -34,11 +34,13 @@ class MovieDto(
     @SerialName("release_date")
     val releaseDate: String? = null,
     @SerialName("genres")
-    val genres: List<GenreDto>? = listOf(),
+    val genres: List<GenreDto>? = null,
     @SerialName("popularity")
     val popularity: Double? = null,
     @SerialName("genre_ids")
-    val genreIds: List<Int>? = listOf(),
+    val genreIds: List<Int>? = null,
     @SerialName("runtime")
-    val runtime: Int? = null
+    val runtime: Int? = null,
+    @SerialName("spoken_languages")
+    val spokenLanguages: List<SpokenLanguageDto>? = null
 )

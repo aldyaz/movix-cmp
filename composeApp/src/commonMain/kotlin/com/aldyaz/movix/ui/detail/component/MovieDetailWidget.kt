@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -55,6 +56,7 @@ fun DetailHeaderSection(
     posterPath: String,
     backdropPath: String,
     showTimeDuration: String,
+    languages: List<String>,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -111,6 +113,12 @@ fun DetailHeaderSection(
                 TextIcon(
                     icon = Icons.Filled.AccessTime,
                     text = showTimeDuration
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                TextIcon(
+                    icon = Icons.Filled.Language,
+                    text = languages.joinToString(),
+                    textStyle = MaterialTheme.typography.bodyMedium
                 )
             }
         }
@@ -203,7 +211,8 @@ private fun TextIcon(
     icon: ImageVector,
     text: String,
     modifier: Modifier = Modifier,
-    iconTint: Color = LocalContentColor.current
+    iconTint: Color = LocalContentColor.current,
+    textStyle: TextStyle = MaterialTheme.typography.bodySmall
 ) {
     Row(
         modifier = modifier,
@@ -218,7 +227,7 @@ private fun TextIcon(
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.bodySmall,
+            style = textStyle,
             maxLines = 2
         )
     }

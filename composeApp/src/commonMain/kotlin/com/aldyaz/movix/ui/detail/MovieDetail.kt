@@ -147,7 +147,8 @@ fun MovieContent(
                                 posterPath = data.posterPath,
                                 backdropPath = data.backdropPath,
                                 showTimeDuration = "${data.duration} " +
-                                    stringResource(Res.string.label_minutes)
+                                    stringResource(Res.string.label_minutes),
+                                languages = data.languages
                             )
                         }
                     )
