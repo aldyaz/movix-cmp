@@ -83,7 +83,7 @@ fun MovieDetailScaffold(
             MovieDetailAppBar(
                 scrollBehavior = appBarScrollBehavior,
                 onClickBack = onClickBack,
-                title = uiState.movie.title,
+                title = uiState.movie?.title.orEmpty(),
                 modifier = Modifier.fillMaxWidth()
             )
         },
@@ -133,64 +133,66 @@ fun MovieContent(
 
         uiState.success -> {
             val data = uiState.movie
-            LazyColumn(
-                modifier = modifier,
-                contentPadding = contentPadding,
-                content = {
-                    item(
-                        key = KeyConst.DETAIL_HEADER_SECTION,
-                        content = {
-                            DetailHeaderSection(
-                                title = data.title,
-                                releaseDate = data.releaseDate,
-                                rating = data.rating,
-                                posterPath = data.posterPath,
-                                backdropPath = data.backdropPath,
-                                showTimeDuration = "${data.duration} " +
-                                    stringResource(Res.string.label_minutes),
-                                languages = data.languages
-                            )
-                        }
-                    )
-
-                    item(
-                        key = KeyConst.DETAIL_GENRES_SECTION,
-                        content = {
-                            GenresHorizontalScrollable(
-                                genres = data.genres,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(
-                                        vertical = 16.dp
-                                    )
-                            )
-                        }
-                    )
-
-                    item(
-                        key = KeyConst.DETAIL_OVERVIEW_SECTION,
-                        content = {
-                            DetailOverviewSection(
-                                overview = data.overview,
-                                modifier = Modifier.padding(
-                                    horizontal = 16.dp
+            if (data != null) {
+                LazyColumn(
+                    modifier = modifier,
+                    contentPadding = contentPadding,
+                    content = {
+                        item(
+                            key = KeyConst.DETAIL_HEADER_SECTION,
+                            content = {
+                                DetailHeaderSection(
+                                    title = data.title,
+                                    releaseDate = data.releaseDate,
+                                    rating = data.rating,
+                                    posterPath = data.posterPath,
+                                    backdropPath = data.backdropPath,
+                                    showTimeDuration = "${data.duration} " +
+                                        stringResource(Res.string.label_minutes),
+                                    languages = data.languages
                                 )
-                            )
-                        }
-                    )
+                            }
+                        )
 
-                    item(
-                        key = KeyConst.DETAIL_SPACER,
-                        content = {
-                            Spacer(
-                                modifier = Modifier
-                                    .height(300.dp)
-                                    .fillParentMaxWidth()
-                            )
-                        }
-                    )
-                }
-            )
+                        item(
+                            key = KeyConst.DETAIL_GENRES_SECTION,
+                            content = {
+                                GenresHorizontalScrollable(
+                                    genres = data.genres,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(
+                                            vertical = 16.dp
+                                        )
+                                )
+                            }
+                        )
+
+                        item(
+                            key = KeyConst.DETAIL_OVERVIEW_SECTION,
+                            content = {
+                                DetailOverviewSection(
+                                    overview = data.overview,
+                                    modifier = Modifier.padding(
+                                        horizontal = 16.dp
+                                    )
+                                )
+                            }
+                        )
+
+                        item(
+                            key = KeyConst.DETAIL_SPACER,
+                            content = {
+                                Spacer(
+                                    modifier = Modifier
+                                        .height(300.dp)
+                                        .fillParentMaxWidth()
+                                )
+                            }
+                        )
+                    }
+                )
+            }
         }
     }
 }

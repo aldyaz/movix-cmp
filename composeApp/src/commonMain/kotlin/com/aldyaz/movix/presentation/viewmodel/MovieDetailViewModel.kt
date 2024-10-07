@@ -32,24 +32,15 @@ class MovieDetailViewModel(
         ) { state, result ->
             var newState = state
             newState = newState.copy(
-                loading = true,
-                error = false
+                loading = when (result) {
+                    is ResultState.Success,
+                    is ResultState.Error -> false
+                },
+                error = result is ResultState.Error,
+                movie = if (result is ResultState.Success) {
+                    movieDetailToPresentationMapper(result.data)
+                } else null
             )
-            newState = when (result) {
-                is ResultState.Success -> {
-                    newState.copy(
-                        loading = false,
-                        movie = movieDetailToPresentationMapper(result.data)
-                    )
-                }
-
-                is ResultState.Error -> {
-                    newState.copy(
-                        loading = false,
-                        error = true
-                    )
-                }
-            }
             newState
         }
     }.stateIn(
