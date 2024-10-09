@@ -17,8 +17,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.LocalTextStyle
@@ -40,7 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.aldyaz.movix.ui.common.component.BaseChip
-import com.aldyaz.movix.ui.common.component.MoviePoster
 import com.aldyaz.movix.utils.MovieImageApi
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
@@ -49,84 +48,75 @@ import movixcmp.composeapp.generated.resources.label_overview
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun DetailHeaderSection(
-    title: String,
-    releaseDate: String,
-    rating: Double,
-    posterPath: String,
-    backdropPath: String,
-    showTimeDuration: String,
-    languages: List<String>,
+fun BackdropPoster(
+    path: String,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    val painterResource = asyncPainterResource(
+        data = MovieImageApi.imageW780Url(path)
+    )
+    Box(
         modifier = modifier
     ) {
-        val backdropPainterResource = asyncPainterResource(
-            data = MovieImageApi.imageW780Url(backdropPath)
-        )
         KamelImage(
-            resource = backdropPainterResource,
+            resource = painterResource,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             onLoading = {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(16f / 8f)
+                        .aspectRatio(4f / 3f)
                         .background(Color.Gray.copy(alpha = 0.5f))
                 )
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(16f / 8f)
+                .aspectRatio(4f / 3f)
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier.padding(
-                horizontal = 16.dp
-            )
-        ) {
-            MoviePoster(imageUrl = MovieImageApi.imageW500Url(posterPath))
-            Column(
-                modifier = Modifier.padding(
-                    start = 12.dp
-                )
-            ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.titleLarge,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                TextIcon(
-                    icon = Icons.Filled.Star,
-                    text = rating.toString()
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                TextIcon(
-                    icon = Icons.Filled.CalendarToday,
-                    text = releaseDate
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                TextIcon(
-                    icon = Icons.Filled.AccessTime,
-                    text = showTimeDuration
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                TextIcon(
-                    icon = Icons.Filled.Language,
-                    text = languages.joinToString(),
-                    textStyle = MaterialTheme.typography.bodyMedium
-                )
-            }
-        }
     }
 }
 
 @Composable
-fun DetailOverviewSection(
+fun TitleSection(
+    title: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun RatingSection(
+    rating: Double,
+    releaseDate: String,
+    showTimeDuration: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        VerticalTextIcon(
+            icon = Icons.Filled.Star,
+            text = "$rating/10"
+        )
+        VerticalTextIcon(
+            icon = Icons.Filled.CalendarToday,
+            text = releaseDate
+        )
+        VerticalTextIcon(
+            icon = Icons.Filled.AccessTime,
+            text = showTimeDuration
+        )
+    }
+}
+
+@Composable
+fun OverviewSection(
     overview: String,
     modifier: Modifier = Modifier
 ) {
@@ -142,7 +132,7 @@ fun DetailOverviewSection(
         Spacer(modifier = Modifier.height(8.dp))
         ExpandedText(
             text = overview,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -207,28 +197,110 @@ fun GenresHorizontalScrollable(
 }
 
 @Composable
-private fun TextIcon(
+fun GeneralInformationSection(
+    originalLanguage: Pair<String, String>,
+    budget: Pair<String, String>,
+    revenue: Pair<String, String>,
+    releasedStatus: Pair<String, String>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = "General Information",
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontWeight = FontWeight.Bold
+            )
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Card(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(Modifier.height(16.dp))
+            HorizontalText(
+                textPair = originalLanguage,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(8.dp))
+            HorizontalText(
+                textPair = budget,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(8.dp))
+            HorizontalText(
+                textPair = revenue,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(8.dp))
+            HorizontalText(
+                textPair = releasedStatus,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth()
+            )
+            Spacer(Modifier.height(16.dp))
+        }
+    }
+}
+
+@Composable
+private fun HorizontalText(
+    textPair: Pair<String, String>,
+    modifier: Modifier = Modifier
+) {
+    Row(modifier = modifier) {
+        Text(
+            text = textPair.first,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.bodyMedium,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(0.5f)
+        )
+        Text(
+            text = textPair.second,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier
+                .padding(
+                    start = 8.dp
+                )
+                .weight(0.5f)
+        )
+    }
+}
+
+@Composable
+private fun VerticalTextIcon(
     icon: ImageVector,
     text: String,
     modifier: Modifier = Modifier,
     iconTint: Color = LocalContentColor.current,
     textStyle: TextStyle = MaterialTheme.typography.bodySmall
 ) {
-    Row(
+    Column(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
             imageVector = icon,
             contentDescription = text,
             tint = iconTint,
-            modifier = Modifier.size(18.dp)
+            modifier = Modifier.size(28.dp)
         )
         Text(
             text = text,
             style = textStyle,
-            maxLines = 2
+            maxLines = 2,
+            modifier = Modifier.padding(
+                top = 8.dp
+            )
         )
     }
 }

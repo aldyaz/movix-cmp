@@ -8,16 +8,9 @@ object DateUtils {
 
     /** Example date: Jun 20, 2024 **/
     fun format(dateString: String): String {
-        val parseFormat = LocalDate.Format {
-            year()
-            chars("-")
-            monthNumber()
-            chars("-")
-            dayOfMonth()
-        }
         val date = LocalDate.parse(
             input = dateString,
-            format = parseFormat
+            format = commonDateFormat()
         )
         return date.format(
             LocalDate.Format {
@@ -28,6 +21,22 @@ object DateUtils {
                 year()
             }
         )
+    }
+
+    fun getYear(dateString: String): Int {
+        val date = LocalDate.parse(
+            input = dateString,
+            format = commonDateFormat()
+        )
+        return date.year
+    }
+
+    private fun commonDateFormat() = LocalDate.Format {
+        year()
+        chars("-")
+        monthNumber()
+        chars("-")
+        dayOfMonth()
     }
 
 }

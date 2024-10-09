@@ -23,7 +23,11 @@ class MovieToDomainMapper : (MovieDto) -> MovieDomainModel {
             runtime = p1.runtime ?: 0,
             languages = List(spokenLanguages.size) {
                 spokenLanguages[it].iso6391
-            }
+            },
+            originalLanguage = p1.originalLanguage.orEmpty(),
+            budget = p1.budget ?: 0,
+            revenue = p1.revenue ?: 0,
+            status = p1.status.orEmpty()
         )
     }
 }

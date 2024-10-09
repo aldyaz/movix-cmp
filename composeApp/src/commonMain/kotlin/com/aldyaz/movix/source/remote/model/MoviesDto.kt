@@ -35,12 +35,16 @@ class MovieDto(
     val releaseDate: String? = null,
     @SerialName("genres")
     val genres: List<GenreDto>? = null,
-    @SerialName("popularity")
-    val popularity: Double? = null,
-    @SerialName("genre_ids")
-    val genreIds: List<Int>? = null,
     @SerialName("runtime")
     val runtime: Int? = null,
     @SerialName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguageDto>? = null
+    val spokenLanguages: List<SpokenLanguageDto>? = null,
+    @SerialName("original_language")
+    val originalLanguage: String? = null,
+    @SerialName("budget")
+    val budget: Int? = null,
+    @SerialName("revenue")
+    val revenue: Int? = null,
+    @SerialName("status")
+    val status: String? = null
 )

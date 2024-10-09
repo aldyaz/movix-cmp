@@ -11,5 +11,9 @@ data class MovieDomainModel(
     val genres: List<String>,
     val voteAverage: Double,
     val runtime: Int,
-    val languages: List<String>
+    val languages: List<String>,
+    val originalLanguage: String,
+    val budget: Int,
+    val revenue: Int,
+    val status: String
 )

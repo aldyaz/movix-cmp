@@ -26,8 +26,8 @@ fun BaseChip(
                 shape = RoundedCornerShape(4.dp)
             )
             .padding(
-                vertical = 2.dp,
-                horizontal = 4.dp
+                vertical = 4.dp,
+                horizontal = 6.dp
             )
     )
 }

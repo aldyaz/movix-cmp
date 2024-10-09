@@ -37,12 +37,19 @@ import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.presentation.intent.MovieDetailViewIntent
 import com.aldyaz.movix.presentation.state.MovieDetailState
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
-import com.aldyaz.movix.ui.detail.component.DetailHeaderSection
-import com.aldyaz.movix.ui.detail.component.DetailOverviewSection
+import com.aldyaz.movix.ui.detail.component.BackdropPoster
+import com.aldyaz.movix.ui.detail.component.GeneralInformationSection
 import com.aldyaz.movix.ui.detail.component.GenresHorizontalScrollable
+import com.aldyaz.movix.ui.detail.component.OverviewSection
+import com.aldyaz.movix.ui.detail.component.RatingSection
+import com.aldyaz.movix.ui.detail.component.TitleSection
 import com.aldyaz.movix.utils.KeyConst
 import movixcmp.composeapp.generated.resources.Res
+import movixcmp.composeapp.generated.resources.label_budget
 import movixcmp.composeapp.generated.resources.label_minutes
+import movixcmp.composeapp.generated.resources.label_original_language
+import movixcmp.composeapp.generated.resources.label_released_status
+import movixcmp.composeapp.generated.resources.label_revenue
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -139,17 +146,42 @@ fun MovieContent(
                     contentPadding = contentPadding,
                     content = {
                         item(
-                            key = KeyConst.DETAIL_HEADER_SECTION,
+                            key = KeyConst.DETAIL_BACKDROP_SECTION,
                             content = {
-                                DetailHeaderSection(
+                                BackdropPoster(
+                                    path = data.backdropPath
+                                )
+                            }
+                        )
+
+                        item(
+                            key = KeyConst.DETAIL_TITLE_SECTION,
+                            content = {
+                                TitleSection(
                                     title = data.title,
-                                    releaseDate = data.releaseDate,
+                                    modifier = Modifier
+                                        .padding(
+                                            top = 16.dp,
+                                            start = 16.dp,
+                                            end = 16.dp,
+                                            bottom = 8.dp
+                                        )
+                                        .fillMaxWidth()
+                                )
+                            }
+                        )
+
+                        item(
+                            key = KeyConst.DETAIL_RATING_SECTION,
+                            content = {
+                                RatingSection(
                                     rating = data.rating,
-                                    posterPath = data.posterPath,
-                                    backdropPath = data.backdropPath,
+                                    releaseDate = data.releaseDate,
                                     showTimeDuration = "${data.duration} " +
                                         stringResource(Res.string.label_minutes),
-                                    languages = data.languages
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
                                 )
                             }
                         )
@@ -162,7 +194,7 @@ fun MovieContent(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(
-                                            vertical = 16.dp
+                                            vertical = 8.dp
                                         )
                                 )
                             }
@@ -171,11 +203,42 @@ fun MovieContent(
                         item(
                             key = KeyConst.DETAIL_OVERVIEW_SECTION,
                             content = {
-                                DetailOverviewSection(
+                                OverviewSection(
                                     overview = data.overview,
                                     modifier = Modifier.padding(
+                                        vertical = 8.dp,
                                         horizontal = 16.dp
                                     )
+                                )
+                            }
+                        )
+
+                        item(
+                            key = KeyConst.DETAIL_GENERAL_SECTION,
+                            content = {
+                                GeneralInformationSection(
+                                    originalLanguage = Pair(
+                                        stringResource(Res.string.label_original_language),
+                                        data.originalLanguage
+                                    ),
+                                    budget = Pair(
+                                        stringResource(Res.string.label_budget),
+                                        data.budget.toString()
+                                    ),
+                                    revenue = Pair(
+                                        stringResource(Res.string.label_revenue),
+                                        data.revenue.toString()
+                                    ),
+                                    releasedStatus = Pair(
+                                        stringResource(Res.string.label_released_status),
+                                        data.status
+                                    ),
+                                    modifier = Modifier
+                                        .padding(
+                                            vertical = 12.dp,
+                                            horizontal = 16.dp
+                                        )
+                                        .fillMaxWidth()
                                 )
                             }
                         )
