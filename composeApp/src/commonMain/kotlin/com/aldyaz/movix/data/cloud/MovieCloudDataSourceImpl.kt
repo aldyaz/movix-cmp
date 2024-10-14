@@ -1,7 +1,7 @@
 package com.aldyaz.movix.data.cloud
 
-import com.aldyaz.movix.core.exception.HttpException
 import com.aldyaz.movix.core.network.HttpResult
+import com.aldyaz.movix.data.extension.parseHttp
 import com.aldyaz.movix.source.remote.TmdbRemoteService
 import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
@@ -12,56 +12,38 @@ class MovieCloudDataSourceImpl(
 ) : MovieCloudDataSource {
 
     override suspend fun getNowPlayingMovies(): HttpResult<MoviesDto> {
-        return try {
-            val result = tmdbRemoteService.getNowPlayingMovies()
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getNowPlayingMovies()
         }
     }
 
     override suspend fun getPopularMovies(): HttpResult<MoviesDto> {
-        return try {
-            val result = tmdbRemoteService.getPopularMovies()
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getPopularMovies()
         }
     }
 
     override suspend fun getTopRatedMovies(): HttpResult<MoviesDto> {
-        return try {
-            val result = tmdbRemoteService.getTopRatedMovies()
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getTopRatedMovies()
         }
     }
 
     override suspend fun getMovieDetail(id: Long): HttpResult<MovieDto> {
-        return try {
-            val result = tmdbRemoteService.getMovieDetail(id)
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getMovieDetail(id)
         }
     }
 
     override suspend fun getAiringTodayTvShows(): HttpResult<TvShowsDto> {
-        return try {
-            val result = tmdbRemoteService.getAiringTodayTvShows()
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getAiringTodayTvShows()
         }
     }
 
     override suspend fun getOnTheAirTvShows(): HttpResult<TvShowsDto> {
-        return try {
-            val result = tmdbRemoteService.getOnTheAirTvShows()
-            HttpResult.Success(result)
-        } catch (err: HttpException) {
-            HttpResult.Error(err)
+        return parseHttp {
+            tmdbRemoteService.getOnTheAirTvShows()
         }
     }
 }
