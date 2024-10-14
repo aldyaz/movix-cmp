@@ -15,8 +15,4 @@ interface MovieCloudDataSource {
 
     suspend fun getMovieDetail(id: Long): HttpResult<MovieDto>
 
-    suspend fun getAiringTodayTvShows(): HttpResult<TvShowsDto>
-
-    suspend fun getOnTheAirTvShows(): HttpResult<TvShowsDto>
-
 }

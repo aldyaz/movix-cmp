@@ -5,7 +5,6 @@ import com.aldyaz.movix.data.extension.parseHttp
 import com.aldyaz.movix.source.remote.TmdbRemoteService
 import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
-import com.aldyaz.movix.source.remote.model.TvShowsDto
 
 class MovieCloudDataSourceImpl(
     private val tmdbRemoteService: TmdbRemoteService
@@ -32,18 +31,6 @@ class MovieCloudDataSourceImpl(
     override suspend fun getMovieDetail(id: Long): HttpResult<MovieDto> {
         return parseHttp {
             tmdbRemoteService.getMovieDetail(id)
-        }
-    }
-
-    override suspend fun getAiringTodayTvShows(): HttpResult<TvShowsDto> {
-        return parseHttp {
-            tmdbRemoteService.getAiringTodayTvShows()
-        }
-    }
-
-    override suspend fun getOnTheAirTvShows(): HttpResult<TvShowsDto> {
-        return parseHttp {
-            tmdbRemoteService.getOnTheAirTvShows()
         }
     }
 }

@@ -13,10 +13,10 @@ data class TvShowsDto(
 
 @Serializable
 data class TvShowDto(
+    @SerialName("id") val id: Long? = null,
     @SerialName("adult") val adult: Boolean? = null,
     @SerialName("backdrop_path") val backdropPath: String? = null,
     @SerialName("genre_ids") val genreIds: List<Int>? = null,
-    @SerialName("id") val id: Int? = null,
     @SerialName("origin_country") val originCountry: List<String>? = null,
     @SerialName("original_language") val originalLanguage: String? = null,
     @SerialName("original_name") val originalName: String? = null,

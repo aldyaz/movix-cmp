@@ -3,15 +3,23 @@ package com.aldyaz.movix.di
 import com.aldyaz.movix.core.coroutines.CoroutinesContextProvider
 import com.aldyaz.movix.data.cloud.MovieCloudDataSource
 import com.aldyaz.movix.data.cloud.MovieCloudDataSourceImpl
+import com.aldyaz.movix.data.cloud.TvShowCloudDataSource
+import com.aldyaz.movix.data.cloud.TvShowCloudDataSourceImpl
 import com.aldyaz.movix.data.repository.MovieRepositoryImpl
+import com.aldyaz.movix.data.repository.TvShowRepositoryImpl
+import com.aldyaz.movix.domain.interactor.GetAiringTodayTvShowsUseCase
 import com.aldyaz.movix.domain.interactor.GetMovieDetailUseCase
 import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
+import com.aldyaz.movix.domain.interactor.GetOnTheAirTvShowsUseCase
 import com.aldyaz.movix.domain.interactor.GetPopularMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetTopRatedMoviesUseCase
 import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
+import com.aldyaz.movix.domain.mapper.TvShowListToDomainMapper
+import com.aldyaz.movix.domain.mapper.TvShowToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
+import com.aldyaz.movix.domain.repository.TvShowRepository
 import com.aldyaz.movix.navigation.CircuitUiFactory
 import com.aldyaz.movix.presentation.mapper.MovieDetailToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieItemToPresentationMapper
@@ -42,16 +50,22 @@ val dataModule = module {
     singleOf(::KtorTmdbRemoteService).bind<TmdbRemoteService>()
     factoryOf(::MovieCloudDataSourceImpl).bind<MovieCloudDataSource>()
     factoryOf(::MovieRepositoryImpl).bind<MovieRepository>()
+    factoryOf(::TvShowCloudDataSourceImpl).bind<TvShowCloudDataSource>()
+    factoryOf(::TvShowRepositoryImpl).bind<TvShowRepository>()
 }
 
 val domainModule = module {
     factoryOf(::HttpExceptionToDomainMapper)
-    factoryOf(::MovieToDomainMapper)
     factoryOf(::MovieListToDomainMapper)
+    factoryOf(::MovieToDomainMapper)
+    factoryOf(::TvShowListToDomainMapper)
+    factoryOf(::TvShowToDomainMapper)
     factoryOf(::GetMovieDetailUseCase)
     factoryOf(::GetNowPlayingMoviesUseCase)
     factoryOf(::GetPopularMoviesUseCase)
     factoryOf(::GetTopRatedMoviesUseCase)
+    factoryOf(::GetAiringTodayTvShowsUseCase)
+    factoryOf(::GetOnTheAirTvShowsUseCase)
 }
 
 val presentationModule = module {
