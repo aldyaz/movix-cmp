@@ -1,9 +1,9 @@
 package com.aldyaz.movix.domain.repository
 
 import com.aldyaz.movix.core.domain.ResultState
+import com.aldyaz.movix.domain.model.MovieCastDomainModel
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.domain.model.MovieListDomainModel
-import com.aldyaz.movix.domain.model.TvShowListDomainModel
 
 interface MovieRepository {
 
@@ -14,5 +14,7 @@ interface MovieRepository {
     suspend fun getTopRatedMovies(): ResultState<MovieListDomainModel>
 
     suspend fun getMovieDetail(id: Long): ResultState<MovieDomainModel>
+
+    suspend fun getCredits(movieId: Long): ResultState<List<MovieCastDomainModel>>
 
 }

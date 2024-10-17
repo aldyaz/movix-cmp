@@ -3,6 +3,7 @@ package com.aldyaz.movix.data.cloud
 import com.aldyaz.movix.core.network.HttpResult
 import com.aldyaz.movix.data.extension.parseHttp
 import com.aldyaz.movix.source.remote.TmdbRemoteService
+import com.aldyaz.movix.source.remote.model.MovieCreditsDto
 import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
 
@@ -31,6 +32,12 @@ class MovieCloudDataSourceImpl(
     override suspend fun getMovieDetail(id: Long): HttpResult<MovieDto> {
         return parseHttp {
             tmdbRemoteService.getMovieDetail(id)
+        }
+    }
+
+    override suspend fun getCredits(movieId: Long): HttpResult<MovieCreditsDto> {
+        return parseHttp {
+            tmdbRemoteService.getCredits(movieId)
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.aldyaz.movix.source.remote
 
 import com.aldyaz.movix.core.network.apiCall
+import com.aldyaz.movix.source.remote.model.MovieCreditsDto
 import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
 import com.aldyaz.movix.source.remote.model.TvShowsDto
@@ -44,6 +45,12 @@ class KtorTmdbRemoteService(
     override suspend fun getOnTheAirTvShows(): TvShowsDto {
         return apiCall {
             httpClient.get("tv/on_the_air")
+        }
+    }
+
+    override suspend fun getCredits(movieId: Long): MovieCreditsDto {
+        return apiCall {
+            httpClient.get("movie/$movieId/credits")
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.aldyaz.movix.source.remote
 
+import com.aldyaz.movix.source.remote.model.MovieCreditsDto
 import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
 import com.aldyaz.movix.source.remote.model.TvShowsDto
@@ -17,5 +18,7 @@ interface TmdbRemoteService {
     suspend fun getAiringTodayTvShows(): TvShowsDto
 
     suspend fun getOnTheAirTvShows(): TvShowsDto
+
+    suspend fun getCredits(movieId: Long): MovieCreditsDto
 
 }

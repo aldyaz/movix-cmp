@@ -4,8 +4,10 @@ import com.aldyaz.movix.core.domain.ResultState
 import com.aldyaz.movix.core.network.HttpResult
 import com.aldyaz.movix.data.cloud.MovieCloudDataSource
 import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
+import com.aldyaz.movix.domain.mapper.MovieCastsToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
+import com.aldyaz.movix.domain.model.MovieCastDomainModel
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.domain.model.MovieListDomainModel
 import com.aldyaz.movix.domain.repository.MovieRepository
@@ -14,6 +16,7 @@ class MovieRepositoryImpl(
     private val movieCloudDataSource: MovieCloudDataSource,
     private val movieListToDomainMapper: MovieListToDomainMapper,
     private val movieToDomainMapper: MovieToDomainMapper,
+    private val movieCastToDomainMapper: MovieCastsToDomainMapper,
     private val httpExceptionToDomainMapper: HttpExceptionToDomainMapper
 ) : MovieRepository {
 
@@ -57,6 +60,18 @@ class MovieRepositoryImpl(
         return when (val result = movieCloudDataSource.getMovieDetail(id)) {
             is HttpResult.Success -> ResultState.Success(
                 movieToDomainMapper(result.data)
+            )
+
+            is HttpResult.Error -> ResultState.Error(
+                httpExceptionToDomainMapper(result.exception)
+            )
+        }
+    }
+
+    override suspend fun getCredits(movieId: Long): ResultState<List<MovieCastDomainModel>> {
+        return when (val result = movieCloudDataSource.getCredits(movieId)) {
+            is HttpResult.Success -> ResultState.Success(
+                movieCastToDomainMapper(result.data)
             )
 
             is HttpResult.Error -> ResultState.Error(
