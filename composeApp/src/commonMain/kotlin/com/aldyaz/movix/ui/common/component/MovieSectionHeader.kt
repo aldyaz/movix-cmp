@@ -1,4 +1,4 @@
-package com.aldyaz.movix.ui.discover.component
+package com.aldyaz.movix.ui.common.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

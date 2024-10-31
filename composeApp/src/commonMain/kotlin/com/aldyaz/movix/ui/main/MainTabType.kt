@@ -1,8 +1,9 @@
 package com.aldyaz.movix.ui.main
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.Tv
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class MainTabType(
@@ -10,7 +11,8 @@ enum class MainTabType(
     val icon: ImageVector
 ) {
 
-    MOVIE("Movie", Icons.Filled.Movie),
-    TV("TV", Icons.Filled.Tv)
+    HOME("Home", Icons.Filled.Home),
+    SEARCH("Search", Icons.Filled.Search),
+    FAVORITE("Favorite", Icons.Filled.Favorite)
 
 }

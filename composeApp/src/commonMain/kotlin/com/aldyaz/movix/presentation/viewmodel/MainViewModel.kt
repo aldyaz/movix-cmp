@@ -8,7 +8,7 @@ import com.aldyaz.movix.ui.main.MainTabType
 
 class MainViewModel : ViewModel() {
 
-    private val _selectedTab: MutableState<MainTabType> = mutableStateOf(MainTabType.MOVIE)
+    private val _selectedTab: MutableState<MainTabType> = mutableStateOf(MainTabType.HOME)
     val selectedTab: State<MainTabType>
         get() = _selectedTab
 

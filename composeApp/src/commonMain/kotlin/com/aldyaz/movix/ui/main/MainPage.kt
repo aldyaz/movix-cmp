@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
@@ -34,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import com.aldyaz.movix.navigation.DetailScreen
 import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
-import com.aldyaz.movix.ui.discover.MovieDiscoverTab
-import com.aldyaz.movix.ui.discover.TvDiscoverTab
+import com.aldyaz.movix.ui.home.MainHomeTab
+import com.aldyaz.movix.ui.search.MainSearchTab
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.app_name
 import movixcmp.composeapp.generated.resources.label_search_descriptor
@@ -53,7 +54,6 @@ fun MainPage(
     }
 
     MainScaffold(
-        modifier = modifier,
         tabs = tabs,
         selectedTab = selectedTab,
         onSelectTab = viewModel::selectTab,
@@ -63,7 +63,8 @@ fun MainPage(
                     movieId = it
                 )
             )
-        }
+        },
+        modifier = modifier
     )
 }
 
@@ -96,21 +97,29 @@ private fun MainScaffold(
             )
         },
         content = { contentPadding ->
-            val contentModifier = modifier.padding(contentPadding)
+            val contentModifier = modifier
+                .padding(contentPadding)
+                .fillMaxSize()
             Crossfade(
                 targetState = selectedTab,
                 label = selectedTab.title,
                 content = { type ->
                     when (type) {
-                        MainTabType.MOVIE -> {
-                            MovieDiscoverTab(
+                        MainTabType.HOME -> {
+                            MainHomeTab(
                                 onNavigateToDetail = onNavigateToDetail,
                                 modifier = contentModifier
                             )
                         }
 
-                        MainTabType.TV -> {
-                            TvDiscoverTab(
+                        MainTabType.SEARCH -> {
+                            MainSearchTab(
+                                modifier = contentModifier
+                            )
+                        }
+
+                        MainTabType.FAVORITE -> {
+                            MainFavoriteTab(
                                 modifier = contentModifier
                             )
                         }

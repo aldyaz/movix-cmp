@@ -1,4 +1,4 @@
-package com.aldyaz.movix.ui.discover
+package com.aldyaz.movix.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,12 +16,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aldyaz.movix.common.ui.component.BasicCircularLoading
 import com.aldyaz.movix.common.ui.component.BasicError
 import com.aldyaz.movix.common.ui.component.ScreenEnterObserver
-import com.aldyaz.movix.presentation.intent.MainTabViewIntent
+import com.aldyaz.movix.presentation.intent.MainHomeTabViewIntent
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
-import com.aldyaz.movix.presentation.state.MainMovieTabState
-import com.aldyaz.movix.presentation.viewmodel.MainMovieTabViewModel
-import com.aldyaz.movix.ui.discover.component.MovieRowList
-import com.aldyaz.movix.ui.discover.component.MovieSectionHeader
+import com.aldyaz.movix.presentation.state.MainHomeTabState
+import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
+import com.aldyaz.movix.ui.common.component.MovieRowList
+import com.aldyaz.movix.ui.common.component.MovieSectionHeader
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.label_now_playing
 import movixcmp.composeapp.generated.resources.label_popular
@@ -30,14 +30,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun MovieDiscoverTab(
+fun MainHomeTab(
     onNavigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MainMovieTabViewModel = koinViewModel()
+    viewModel: MainHomeTabViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     ScreenEnterObserver {
-        viewModel.onIntent(MainTabViewIntent.OnEnter)
+        viewModel.onIntent(MainHomeTabViewIntent.OnEnter)
     }
     MovieDiscoverTabContent(
         modifier = modifier,
@@ -48,7 +48,7 @@ fun MovieDiscoverTab(
 
 @Composable
 fun MovieDiscoverTabContent(
-    uiState: MainMovieTabState,
+    uiState: MainHomeTabState,
     onClickItem: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {

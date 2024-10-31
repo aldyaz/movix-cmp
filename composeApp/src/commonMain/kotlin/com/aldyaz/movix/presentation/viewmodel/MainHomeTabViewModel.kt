@@ -7,10 +7,10 @@ import com.aldyaz.movix.core.presentation.BaseViewModel
 import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetPopularMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetTopRatedMoviesUseCase
-import com.aldyaz.movix.presentation.intent.MainTabViewIntent
+import com.aldyaz.movix.presentation.intent.MainHomeTabViewIntent
 import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
-import com.aldyaz.movix.presentation.state.MainMovieTabState
+import com.aldyaz.movix.presentation.state.MainHomeTabState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -18,19 +18,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MainMovieTabViewModel(
+class MainHomeTabViewModel(
     private val getNowPlayingMoviesUseCase: GetNowPlayingMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase,
     private val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
     private val movieListToPresentationMapper: MovieListToPresentationMapper,
     private val coroutinesContextProvider: CoroutinesContextProvider
-) : BaseViewModel<MainTabViewIntent>() {
+) : BaseViewModel<MainHomeTabViewIntent>() {
 
     private val _nowPlayingState = MutableStateFlow(DiscoverMovieState.Initial)
     private val _popularState = MutableStateFlow(DiscoverMovieState.Initial)
     private val _topRatedState = MutableStateFlow(DiscoverMovieState.Initial)
 
-    private val _uiState = MutableStateFlow(MainMovieTabState.Initial)
+    private val _uiState = MutableStateFlow(MainHomeTabState.Initial)
     val uiState = combine(
         _uiState,
         _nowPlayingState,
@@ -45,12 +45,12 @@ class MainMovieTabViewModel(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = MainMovieTabState.Initial
+        initialValue = MainHomeTabState.Initial
     )
 
-    override fun onIntent(intent: MainTabViewIntent) {
+    override fun onIntent(intent: MainHomeTabViewIntent) {
         when (intent) {
-            is MainTabViewIntent.OnEnter -> {
+            is MainHomeTabViewIntent.OnEnter -> {
                 getNowPlaying()
                 getPopular()
                 getTopRated()

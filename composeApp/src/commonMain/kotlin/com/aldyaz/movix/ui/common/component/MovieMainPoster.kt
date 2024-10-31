@@ -1,4 +1,4 @@
-package com.aldyaz.movix.ui.discover.component
+package com.aldyaz.movix.ui.common.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,7 +23,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.aldyaz.movix.ui.common.component.MoviePoster
 
 @Composable
 fun MovieMainPoster(
