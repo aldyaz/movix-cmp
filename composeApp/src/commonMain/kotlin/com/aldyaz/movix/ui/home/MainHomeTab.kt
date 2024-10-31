@@ -3,11 +3,18 @@ package com.aldyaz.movix.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -22,6 +29,7 @@ import com.aldyaz.movix.presentation.state.MainHomeTabState
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
 import com.aldyaz.movix.ui.common.component.MovieRowList
 import com.aldyaz.movix.ui.common.component.MovieSectionHeader
+import com.aldyaz.movix.ui.main.MainAppBar
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.label_now_playing
 import movixcmp.composeapp.generated.resources.label_popular
@@ -39,15 +47,44 @@ fun MainHomeTab(
     ScreenEnterObserver {
         viewModel.onIntent(MainHomeTabViewIntent.OnEnter)
     }
-    MovieDiscoverTabContent(
-        modifier = modifier,
+    MainHomeTabScaffold(
         uiState = uiState,
-        onClickItem = onNavigateToDetail
+        onSearchClick = {},
+        onNavigateToDetail = onNavigateToDetail,
+        modifier = modifier
     )
 }
 
 @Composable
-fun MovieDiscoverTabContent(
+fun MainHomeTabScaffold(
+    uiState: MainHomeTabState,
+    onSearchClick: () -> Unit,
+    onNavigateToDetail: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Scaffold(
+        topBar = {
+            MainAppBar(
+                onSearchClick = onSearchClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        },
+        modifier = modifier,
+        content = { contentPadding ->
+            MainHomeTabContent(
+                modifier = Modifier
+                    .padding(contentPadding)
+                    .fillMaxSize(),
+                uiState = uiState,
+                onClickItem = onNavigateToDetail
+            )
+        }
+    )
+}
+
+@Composable
+fun MainHomeTabContent(
     uiState: MainHomeTabState,
     onClickItem: (Long) -> Unit,
     modifier: Modifier = Modifier
