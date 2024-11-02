@@ -1,0 +1,72 @@
+CREATE TABLE Movie(
+    id INTEGER NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    overview TEXT NOT NULL,
+    original_title TEXT NOT NULL,
+    release_date TEXT NOT NULL,
+    genres TEXT NOT NULL,
+    poster_path TEXT NOT NULL,
+    backdrop_path TEXT NOT NULL,
+    vote_average REAL NOT NULL,
+    status TEXT NOT NULL,
+    runtime INTEGER NOT NULL,
+    budget INTEGER NOT NULL,
+    revenue INTEGER NOT NULL,
+    spoken_language TEXT NOT NULL,
+    original_language TEXT NOT NULL
+);
+
+CREATE TABLE Favorite(
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    movie_id INTEGER NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES Movie(id)
+);
+
+getFavorites:
+SELECT * FROM Movie AS m
+    INNER JOIN Favorite AS f
+    ON m.id = f.movie_id;
+
+insertMovie:
+INSERT INTO Movie(
+    id,
+    title,
+    overview,
+    original_title,
+    release_date,
+    genres,
+    poster_path,
+    backdrop_path,
+    vote_average,
+    status,
+    runtime,
+    budget,
+    revenue,
+    spoken_language,
+    original_language
+) VALUES (
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+insertFavorite:
+INSERT INTO Favorite(
+    id,
+    movie_id
+) VALUES (
+    ?,
+    ?
+ );

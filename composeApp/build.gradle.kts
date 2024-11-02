@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.buildConfig)
     kotlin("plugin.serialization") version libs.versions.kotlin
     alias(libs.plugins.androidParcelize)
+    alias(libs.plugins.sqldelight)
 }
 
 buildConfig {
@@ -56,10 +57,14 @@ kotlin {
 
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation(libs.sqldelight.android.driver)
         }
 
         iosMain.dependencies {
             implementation(libs.ktor.darwin)
+
+            implementation(libs.sqldelight.native.driver)
         }
 
         commonMain.dependencies {
@@ -91,6 +96,8 @@ kotlin {
             implementation(libs.circuit)
             implementation(libs.circuit.gesture.navigation)
             implementation(libs.kamel)
+
+            implementation(libs.bundles.sqldelight)
         }
     }
 }
@@ -133,6 +140,14 @@ android {
 
     dependencies {
         debugImplementation(compose.uiTooling)
+    }
+}
+
+sqldelight {
+    databases {
+        create("MovixDatabase") {
+            packageName = "com.aldyaz.movix.database"
+        }
     }
 }
 
