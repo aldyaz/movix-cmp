@@ -28,7 +28,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
             freeCompilerArgs.addAll(
                 "-P",
                 "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.aldyaz.movix.Parcelize"
@@ -100,6 +100,8 @@ kotlin {
             implementation(libs.bundles.sqldelight)
         }
     }
+
+    task("testClasses")
 }
 
 android {
@@ -130,8 +132,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
@@ -146,7 +148,7 @@ android {
 sqldelight {
     databases {
         create("MovixDatabase") {
-            packageName = "com.aldyaz.movix.database"
+            packageName.set("com.aldyaz.movix.database")
         }
     }
 }
