@@ -5,9 +5,12 @@ import com.aldyaz.movix.data.cloud.MovieCloudDataSource
 import com.aldyaz.movix.data.cloud.MovieCloudDataSourceImpl
 import com.aldyaz.movix.data.cloud.TvShowCloudDataSource
 import com.aldyaz.movix.data.cloud.TvShowCloudDataSourceImpl
+import com.aldyaz.movix.data.local.MovieLocalDataSource
+import com.aldyaz.movix.data.local.MovieLocalDataSourceImpl
 import com.aldyaz.movix.data.repository.MovieRepositoryImpl
 import com.aldyaz.movix.data.repository.TvShowRepositoryImpl
 import com.aldyaz.movix.domain.interactor.GetAiringTodayTvShowsUseCase
+import com.aldyaz.movix.domain.interactor.GetFavoriteMovies
 import com.aldyaz.movix.domain.interactor.GetMovieDetailUseCase
 import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetOnTheAirTvShowsUseCase
@@ -16,8 +19,9 @@ import com.aldyaz.movix.domain.interactor.GetTopRatedMoviesUseCase
 import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastsToDomainMapper
-import com.aldyaz.movix.domain.mapper.MovieListToDomainMapper
+import com.aldyaz.movix.domain.mapper.MovieDbToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
+import com.aldyaz.movix.domain.mapper.MoviesDtoToDomainMapper
 import com.aldyaz.movix.domain.mapper.TvShowListToDomainMapper
 import com.aldyaz.movix.domain.mapper.TvShowToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
@@ -29,8 +33,8 @@ import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
-import com.aldyaz.movix.source.remote.KtorTmdbRemoteService
-import com.aldyaz.movix.source.remote.TmdbRemoteService
+import com.aldyaz.movix.source.remote.MovixRemoteService
+import com.aldyaz.movix.source.remote.MovixRemoteServiceImpl
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.ui.Ui
 import org.koin.core.module.Module
@@ -49,8 +53,9 @@ val coreModule = module {
 }
 
 val dataModule = module {
-    singleOf(::KtorTmdbRemoteService).bind<TmdbRemoteService>()
+    singleOf(::MovixRemoteServiceImpl).bind<MovixRemoteService>()
     factoryOf(::MovieCloudDataSourceImpl).bind<MovieCloudDataSource>()
+    factoryOf(::MovieLocalDataSourceImpl).bind<MovieLocalDataSource>()
     factoryOf(::MovieRepositoryImpl).bind<MovieRepository>()
     factoryOf(::TvShowCloudDataSourceImpl).bind<TvShowCloudDataSource>()
     factoryOf(::TvShowRepositoryImpl).bind<TvShowRepository>()
@@ -58,12 +63,13 @@ val dataModule = module {
 
 val domainModule = module {
     factoryOf(::HttpExceptionToDomainMapper)
-    factoryOf(::MovieListToDomainMapper)
+    factoryOf(::MoviesDtoToDomainMapper)
     factoryOf(::MovieToDomainMapper)
     factoryOf(::TvShowListToDomainMapper)
     factoryOf(::TvShowToDomainMapper)
     factoryOf(::MovieCastsToDomainMapper)
     factoryOf(::MovieCastToDomainMapper)
+    factoryOf(::MovieDbToDomainMapper)
 
     factoryOf(::GetMovieDetailUseCase)
     factoryOf(::GetNowPlayingMoviesUseCase)
@@ -71,6 +77,7 @@ val domainModule = module {
     factoryOf(::GetTopRatedMoviesUseCase)
     factoryOf(::GetAiringTodayTvShowsUseCase)
     factoryOf(::GetOnTheAirTvShowsUseCase)
+    factoryOf(::GetFavoriteMovies)
 }
 
 val presentationModule = module {

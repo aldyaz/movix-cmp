@@ -4,6 +4,7 @@ import com.aldyaz.movix.core.domain.ResultState
 import com.aldyaz.movix.domain.model.MovieCastDomainModel
 import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.domain.model.MovieListDomainModel
+import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
@@ -16,5 +17,7 @@ interface MovieRepository {
     suspend fun getMovieDetail(id: Long): ResultState<MovieDomainModel>
 
     suspend fun getCredits(movieId: Long): ResultState<List<MovieCastDomainModel>>
+
+    fun getFavoriteMovies(): Flow<List<MovieDomainModel>>
 
 }

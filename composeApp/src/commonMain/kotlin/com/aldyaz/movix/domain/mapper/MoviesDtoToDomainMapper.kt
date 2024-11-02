@@ -3,7 +3,7 @@ package com.aldyaz.movix.domain.mapper
 import com.aldyaz.movix.domain.model.MovieListDomainModel
 import com.aldyaz.movix.source.remote.model.MoviesDto
 
-class MovieListToDomainMapper(
+class MoviesDtoToDomainMapper(
     private val movieToDomainMapper: MovieToDomainMapper
 ) : (MoviesDto) -> MovieListDomainModel {
 

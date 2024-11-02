@@ -5,7 +5,7 @@ import com.aldyaz.movix.source.remote.model.MovieDto
 import com.aldyaz.movix.source.remote.model.MoviesDto
 import com.aldyaz.movix.source.remote.model.TvShowsDto
 
-interface TmdbRemoteService {
+interface MovixRemoteService {
 
     suspend fun getNowPlayingMovies(): MoviesDto
 

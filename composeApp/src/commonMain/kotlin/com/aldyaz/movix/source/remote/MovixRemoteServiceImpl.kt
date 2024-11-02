@@ -8,9 +8,9 @@ import com.aldyaz.movix.source.remote.model.TvShowsDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 
-class KtorTmdbRemoteService(
+class MovixRemoteServiceImpl(
     private val httpClient: HttpClient
-) : TmdbRemoteService {
+) : MovixRemoteService {
 
     override suspend fun getNowPlayingMovies(): MoviesDto {
         return apiCall {
