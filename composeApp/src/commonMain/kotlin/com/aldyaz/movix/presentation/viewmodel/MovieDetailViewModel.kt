@@ -5,6 +5,7 @@ package com.aldyaz.movix.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.aldyaz.movix.core.domain.ResultState
 import com.aldyaz.movix.core.presentation.BaseViewModel
+import com.aldyaz.movix.domain.interactor.CheckFavoriteMovieUseCase
 import com.aldyaz.movix.domain.interactor.GetMovieDetailUseCase
 import com.aldyaz.movix.presentation.intent.MovieDetailViewIntent
 import com.aldyaz.movix.presentation.mapper.MovieDetailToPresentationMapper
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.stateIn
 
 class MovieDetailViewModel(
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val checkFavoriteMovieUseCase: CheckFavoriteMovieUseCase,
     private val movieDetailToPresentationMapper: MovieDetailToPresentationMapper
 ) : BaseViewModel<MovieDetailViewIntent>() {
 
@@ -28,18 +30,20 @@ class MovieDetailViewModel(
     val state = _movieId.flatMapLatest { id ->
         combine(
             _state,
-            flow { emit(getMovieDetailUseCase(id)) }
-        ) { state, result ->
+            flow { emit(getMovieDetailUseCase(id)) },
+            checkFavoriteMovieUseCase(id)
+        ) { state, movieDetailResult, isFavorite ->
             var newState = state
             newState = newState.copy(
-                loading = when (result) {
+                loading = when (movieDetailResult) {
                     is ResultState.Success,
                     is ResultState.Error -> false
                 },
-                error = result is ResultState.Error,
-                movie = if (result is ResultState.Success) {
-                    movieDetailToPresentationMapper(result.data)
-                } else null
+                error = movieDetailResult is ResultState.Error,
+                movie = if (movieDetailResult is ResultState.Success) {
+                    movieDetailToPresentationMapper(movieDetailResult.data)
+                } else null,
+                isFavorite = isFavorite
             )
             newState
         }
@@ -53,6 +57,10 @@ class MovieDetailViewModel(
         when (intent) {
             is MovieDetailViewIntent.Retry -> {
                 _movieId.tryEmit(intent.movieId)
+            }
+
+            is MovieDetailViewIntent.OnClickFavorite -> {
+
             }
         }
     }

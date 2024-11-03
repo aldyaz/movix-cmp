@@ -64,9 +64,10 @@ INSERT INTO Movie(
 
 insertFavorite:
 INSERT INTO Favorite(
-    id,
     movie_id
 ) VALUES (
-    ?,
-    ?
- );
+ ?
+);
+
+checkFavorite:
+SELECT EXISTS (SELECT 1 FROM Favorite WHERE movie_id = ?);

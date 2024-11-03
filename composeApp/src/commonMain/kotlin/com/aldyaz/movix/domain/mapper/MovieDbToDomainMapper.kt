@@ -1,7 +1,7 @@
 package com.aldyaz.movix.domain.mapper
 
+import com.aldyaz.movix.database.GetFavorites
 import com.aldyaz.movix.domain.model.MovieDomainModel
-import database.GetFavorites
 
 class MovieDbToDomainMapper : (GetFavorites) -> MovieDomainModel {
 

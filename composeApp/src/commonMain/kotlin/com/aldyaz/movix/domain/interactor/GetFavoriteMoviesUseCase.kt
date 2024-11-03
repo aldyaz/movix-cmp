@@ -5,7 +5,7 @@ import com.aldyaz.movix.domain.model.MovieDomainModel
 import com.aldyaz.movix.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
-class GetFavoriteMovies(
+class GetFavoriteMoviesUseCase(
     private val movieRepository: MovieRepository
 ) : FlowUseCase<Unit, List<MovieDomainModel>>() {
 

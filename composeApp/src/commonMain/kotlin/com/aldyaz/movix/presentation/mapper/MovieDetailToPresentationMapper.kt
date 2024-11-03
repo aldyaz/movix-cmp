@@ -22,7 +22,7 @@ class MovieDetailToPresentationMapper : (MovieDomainModel) -> MovieDetailPresent
             originalLanguage = p1.originalLanguage,
             budget = p1.budget,
             revenue = p1.revenue,
-            status = p1.status
+            status = p1.status,
         )
     }
 }

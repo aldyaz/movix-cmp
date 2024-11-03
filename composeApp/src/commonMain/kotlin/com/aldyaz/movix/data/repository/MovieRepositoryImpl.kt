@@ -7,6 +7,7 @@ import com.aldyaz.movix.data.local.MovieLocalDataSource
 import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastsToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieDbToDomainMapper
+import com.aldyaz.movix.domain.mapper.MovieDomainToDbMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
 import com.aldyaz.movix.domain.mapper.MoviesDtoToDomainMapper
 import com.aldyaz.movix.domain.model.MovieCastDomainModel
@@ -23,6 +24,7 @@ class MovieRepositoryImpl(
     private val movieToDomainMapper: MovieToDomainMapper,
     private val movieCastToDomainMapper: MovieCastsToDomainMapper,
     private val movieDbToDomainMapper: MovieDbToDomainMapper,
+    private val movieDomainToDbMapper: MovieDomainToDbMapper,
     private val httpExceptionToDomainMapper: HttpExceptionToDomainMapper
 ) : MovieRepository {
 
@@ -92,5 +94,15 @@ class MovieRepositoryImpl(
                 movieDbToDomainMapper(it[index])
             }
         }
+    }
+
+    override fun checkFavorite(movieId: Long): Flow<Boolean> {
+        return movieLocalDataSource.checkFavorite(movieId)
+    }
+
+    override fun saveFavorite(movie: MovieDomainModel) {
+        movieLocalDataSource.saveFavorite(
+            movieDomainToDbMapper(movie)
+        )
     }
 }

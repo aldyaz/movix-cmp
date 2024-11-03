@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -12,11 +13,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -80,13 +85,35 @@ fun BackdropPoster(
 @Composable
 fun TitleSection(
     title: String,
+    favorite: Boolean,
+    onClickFavorite: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleLarge,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-    )
+    ) {
+        Text(
+            text = title,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .width(IntrinsicSize.Min)
+                .weight(1f)
+        )
+        IconButton(
+            onClick = onClickFavorite,
+            content = {
+                Icon(
+                    imageVector = if (favorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
+                    contentDescription = null,
+                    tint = if (favorite) Color.Red else LocalContentColor.current
+                )
+            }
+        )
+    }
 }
 
 @Composable

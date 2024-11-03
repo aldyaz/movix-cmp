@@ -20,4 +20,8 @@ interface MovieRepository {
 
     fun getFavoriteMovies(): Flow<List<MovieDomainModel>>
 
+    fun checkFavorite(movieId: Long): Flow<Boolean>
+
+    fun saveFavorite(movie: MovieDomainModel)
+
 }

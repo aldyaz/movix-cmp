@@ -159,6 +159,8 @@ fun MovieContent(
                             content = {
                                 TitleSection(
                                     title = data.title,
+                                    favorite = uiState.isFavorite,
+                                    onClickFavorite = {},
                                     modifier = Modifier
                                         .padding(
                                             top = 16.dp,

@@ -9,8 +9,9 @@ import com.aldyaz.movix.data.local.MovieLocalDataSource
 import com.aldyaz.movix.data.local.MovieLocalDataSourceImpl
 import com.aldyaz.movix.data.repository.MovieRepositoryImpl
 import com.aldyaz.movix.data.repository.TvShowRepositoryImpl
+import com.aldyaz.movix.domain.interactor.CheckFavoriteMovieUseCase
 import com.aldyaz.movix.domain.interactor.GetAiringTodayTvShowsUseCase
-import com.aldyaz.movix.domain.interactor.GetFavoriteMovies
+import com.aldyaz.movix.domain.interactor.GetFavoriteMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetMovieDetailUseCase
 import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetOnTheAirTvShowsUseCase
@@ -20,6 +21,7 @@ import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastsToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieDbToDomainMapper
+import com.aldyaz.movix.domain.mapper.MovieDomainToDbMapper
 import com.aldyaz.movix.domain.mapper.MovieToDomainMapper
 import com.aldyaz.movix.domain.mapper.MoviesDtoToDomainMapper
 import com.aldyaz.movix.domain.mapper.TvShowListToDomainMapper
@@ -70,6 +72,7 @@ val domainModule = module {
     factoryOf(::MovieCastsToDomainMapper)
     factoryOf(::MovieCastToDomainMapper)
     factoryOf(::MovieDbToDomainMapper)
+    factoryOf(::MovieDomainToDbMapper)
 
     factoryOf(::GetMovieDetailUseCase)
     factoryOf(::GetNowPlayingMoviesUseCase)
@@ -77,7 +80,8 @@ val domainModule = module {
     factoryOf(::GetTopRatedMoviesUseCase)
     factoryOf(::GetAiringTodayTvShowsUseCase)
     factoryOf(::GetOnTheAirTvShowsUseCase)
-    factoryOf(::GetFavoriteMovies)
+    factoryOf(::GetFavoriteMoviesUseCase)
+    factoryOf(::CheckFavoriteMovieUseCase)
 }
 
 val presentationModule = module {
