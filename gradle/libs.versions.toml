@@ -68,6 +68,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 buildConfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildConfig" }
 androidParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 
 [bundles]
 sqldelight = ["sqldelight-runtime", "sqldelight-coroutines-extensions"]

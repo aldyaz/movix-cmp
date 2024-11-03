@@ -12,6 +12,7 @@ plugins {
     kotlin("plugin.serialization") version libs.versions.kotlin
     alias(libs.plugins.androidParcelize)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 buildConfig {
@@ -28,7 +29,7 @@ kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+            jvmTarget.set(JvmTarget.JVM_11)
             freeCompilerArgs.addAll(
                 "-P",
                 "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.aldyaz.movix.Parcelize"
@@ -43,7 +44,18 @@ kotlin {
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
-            isStatic = true
+            isStatic = false
+        }
+    }
+
+    cocoapods {
+        summary = "Some description for the Shared Module"
+        homepage = "Link to the Shared Module homepage"
+        version = "1.0"
+        ios.deploymentTarget = "14.1"
+        podfile = project.file("../iosApp/Podfile")
+        framework {
+            baseName = "composeApp"
         }
     }
 
@@ -69,6 +81,7 @@ kotlin {
 
         commonMain.dependencies {
             implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.materialIconsExtended)
@@ -97,7 +110,7 @@ kotlin {
             implementation(libs.circuit.gesture.navigation)
             implementation(libs.kamel)
 
-            implementation(libs.bundles.sqldelight)
+            implementation(libs.sqldelight.coroutines.extensions)
         }
     }
 
@@ -132,8 +145,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     buildFeatures {
