@@ -8,6 +8,7 @@ Movies & TV Show app built by Compose Multiplatform, targeting Android and iOS.
 - [kotlinx.datetime](https://github.com/Kotlin/kotlinx-datetime) - A multiplatform Kotlin library for working with date and time
 - [Ktor](https://ktor.io/) - Asynchronous HTTP Client networking
 - [Koin](https://insert-koin.io/) - Pragmatic lightweight DI framework for Kotlin Multiplatform
+- [SQLDelight](https://sqldelight.github.io/sqldelight) - Local databases, it is typesafe Kotlin-generated API from your SQL statements
 - [Circuit Navigation](https://slackhq.github.io/circuit/navigation/) - For handling content navigation
 - [BuildConfig Plugin](https://github.com/gmazzo/gradle-buildconfig-plugin) - A gradle plugin for generating BuildConfig .kt files
 - [Kamel](https://github.com/Kamel-Media/Kamel) - Asynchronous image loader for Compose
