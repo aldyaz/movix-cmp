@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.aldyaz.movix.navigation.DetailScreen
 import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
+import com.aldyaz.movix.ui.favorite.MainFavoriteTab
 import com.aldyaz.movix.ui.home.MainHomeTab
 import com.aldyaz.movix.ui.search.MainSearchTab
 import movixcmp.composeapp.generated.resources.Res

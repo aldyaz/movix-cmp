@@ -3,7 +3,7 @@ package com.aldyaz.movix.data.local
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
-import com.aldyaz.movix.database.GetFavorites
+import com.aldyaz.movix.database.Movie
 import com.aldyaz.movix.database.MovixDatabase
 import com.aldyaz.movix.source.local.model.MovieDbModel
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +16,7 @@ class MovieLocalDataSourceImpl(
 
     private val queries = movixDatabase.movieQueries
 
-    override fun getMovies(): Flow<List<GetFavorites>> {
+    override fun getMovies(): Flow<List<Movie>> {
         return queries.getFavorites()
             .asFlow()
             .mapToList(Dispatchers.IO)

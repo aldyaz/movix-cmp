@@ -1,11 +1,11 @@
 package com.aldyaz.movix.domain.mapper
 
-import com.aldyaz.movix.database.GetFavorites
+import com.aldyaz.movix.database.Movie
 import com.aldyaz.movix.domain.model.MovieDomainModel
 
-class MovieDbToDomainMapper : (GetFavorites) -> MovieDomainModel {
+class MovieDbToDomainMapper : (Movie) -> MovieDomainModel {
 
-    override fun invoke(p1: GetFavorites): MovieDomainModel {
+    override fun invoke(p1: Movie): MovieDomainModel {
         return MovieDomainModel(
             id = p1.id,
             title = p1.title,

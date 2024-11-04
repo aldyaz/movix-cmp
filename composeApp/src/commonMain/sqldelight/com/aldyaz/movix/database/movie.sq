@@ -23,7 +23,7 @@ CREATE TABLE Favorite(
 );
 
 getFavorites:
-SELECT * FROM Movie AS m
+SELECT m.* FROM Movie AS m
     INNER JOIN Favorite AS f
     ON m.id = f.movie_id;
 
