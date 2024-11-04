@@ -17,6 +17,7 @@ import com.aldyaz.movix.domain.interactor.GetNowPlayingMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetOnTheAirTvShowsUseCase
 import com.aldyaz.movix.domain.interactor.GetPopularMoviesUseCase
 import com.aldyaz.movix.domain.interactor.GetTopRatedMoviesUseCase
+import com.aldyaz.movix.domain.interactor.SaveFavoriteUseCase
 import com.aldyaz.movix.domain.mapper.HttpExceptionToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastToDomainMapper
 import com.aldyaz.movix.domain.mapper.MovieCastsToDomainMapper
@@ -29,9 +30,10 @@ import com.aldyaz.movix.domain.mapper.TvShowToDomainMapper
 import com.aldyaz.movix.domain.repository.MovieRepository
 import com.aldyaz.movix.domain.repository.TvShowRepository
 import com.aldyaz.movix.navigation.CircuitUiFactory
-import com.aldyaz.movix.presentation.mapper.MovieDetailToPresentationMapper
+import com.aldyaz.movix.presentation.mapper.MovieDomainToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieItemToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
+import com.aldyaz.movix.presentation.mapper.MoviePresentationToDomainMapper
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
 import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
@@ -82,12 +84,14 @@ val domainModule = module {
     factoryOf(::GetOnTheAirTvShowsUseCase)
     factoryOf(::GetFavoriteMoviesUseCase)
     factoryOf(::CheckFavoriteMovieUseCase)
+    factoryOf(::SaveFavoriteUseCase)
 }
 
 val presentationModule = module {
     factoryOf(::MovieItemToPresentationMapper)
     factoryOf(::MovieListToPresentationMapper)
-    factoryOf(::MovieDetailToPresentationMapper)
+    factoryOf(::MovieDomainToPresentationMapper)
+    factoryOf(::MoviePresentationToDomainMapper)
     viewModelOf(::MainViewModel)
     viewModelOf(::MainHomeTabViewModel)
     viewModelOf(::MovieDetailViewModel)

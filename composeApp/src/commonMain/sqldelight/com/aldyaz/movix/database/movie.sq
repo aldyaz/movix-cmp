@@ -29,44 +29,46 @@ SELECT * FROM Movie AS m
 
 insertMovie:
 INSERT INTO Movie(
-    id,
-    title,
-    overview,
-    original_title,
-    release_date,
-    genres,
-    poster_path,
-    backdrop_path,
-    vote_average,
-    status,
-    runtime,
-    budget,
-    revenue,
-    spoken_language,
-    original_language
+    `id`,
+    `title`,
+    `overview`,
+    `original_title`,
+    `release_date`,
+    `genres`,
+    `poster_path`,
+    `backdrop_path`,
+    `vote_average`,
+    `status`,
+    `runtime`,
+    `budget`,
+    `revenue`,
+    `spoken_language`,
+    `original_language`
 ) VALUES (
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?,
-    ?
+    :id,
+    :title,
+    :overview,
+    :original_title,
+    :release_date,
+    :genres,
+    :poster_path,
+    :backdrop_path,
+    :vote_average,
+    :status,
+    :runtime,
+    :budget,
+    :revenue,
+    :spoken_language,
+    :original_language
 );
 
 insertFavorite:
 INSERT INTO Favorite(
-    movie_id
+    `id`,
+    `movie_id`
 ) VALUES (
- ?
+    nullif(:id, 0),
+    :movie_id
 );
 
 checkFavorite:

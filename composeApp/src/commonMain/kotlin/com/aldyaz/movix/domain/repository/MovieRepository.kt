@@ -22,6 +22,6 @@ interface MovieRepository {
 
     fun checkFavorite(movieId: Long): Flow<Boolean>
 
-    fun saveFavorite(movie: MovieDomainModel)
+    fun saveFavorite(movie: MovieDomainModel): ResultState<Unit>
 
 }

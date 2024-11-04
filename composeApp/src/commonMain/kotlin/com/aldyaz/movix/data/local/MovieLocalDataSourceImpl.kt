@@ -46,6 +46,9 @@ class MovieLocalDataSourceImpl(
             spoken_language = movie.languages,
             original_language = movie.originalLanguage,
         )
-        queries.insertFavorite(movie_id = movie.id)
+        queries.insertFavorite(
+            id = null,
+            movie_id = movie.id
+        )
     }
 }

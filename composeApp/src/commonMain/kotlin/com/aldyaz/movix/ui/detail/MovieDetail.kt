@@ -35,6 +35,7 @@ import com.aldyaz.movix.common.ui.component.BasicError
 import com.aldyaz.movix.common.ui.component.ScreenEnterObserver
 import com.aldyaz.movix.navigation.LocalNavigator
 import com.aldyaz.movix.presentation.intent.MovieDetailViewIntent
+import com.aldyaz.movix.presentation.model.MovieDetailPresentationModel
 import com.aldyaz.movix.presentation.state.MovieDetailState
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
 import com.aldyaz.movix.ui.detail.component.BackdropPoster
@@ -71,6 +72,9 @@ fun MovieDetail(
         onRetry = {
             viewModel.onIntent(MovieDetailViewIntent.Retry(movieId))
         },
+        onClickFavorite = {
+            viewModel.onIntent(MovieDetailViewIntent.OnClickFavorite(it))
+        },
         modifier = modifier
     )
 }
@@ -80,6 +84,7 @@ fun MovieDetailScaffold(
     uiState: MovieDetailState,
     onClickBack: () -> Unit,
     onRetry: () -> Unit,
+    onClickFavorite: (MovieDetailPresentationModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val layoutDirection = LocalLayoutDirection.current
@@ -90,7 +95,7 @@ fun MovieDetailScaffold(
             MovieDetailAppBar(
                 scrollBehavior = appBarScrollBehavior,
                 onClickBack = onClickBack,
-                title = uiState.movie?.title.orEmpty(),
+                title = uiState.movie?.uiTitle.orEmpty(),
                 modifier = Modifier.fillMaxWidth()
             )
         },
@@ -101,6 +106,7 @@ fun MovieDetailScaffold(
             MovieContent(
                 uiState = uiState,
                 onRetryClick = onRetry,
+                onClickFavorite = onClickFavorite,
                 contentPadding = PaddingValues(
                     start = contentPadding.calculateStartPadding(layoutDirection),
                     top = 0.dp,
@@ -118,6 +124,7 @@ fun MovieContent(
     uiState: MovieDetailState,
     contentPadding: PaddingValues,
     onRetryClick: () -> Unit,
+    onClickFavorite: (MovieDetailPresentationModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when {
@@ -158,9 +165,11 @@ fun MovieContent(
                             key = KeyConst.DETAIL_TITLE_SECTION,
                             content = {
                                 TitleSection(
-                                    title = data.title,
+                                    title = data.uiTitle,
                                     favorite = uiState.isFavorite,
-                                    onClickFavorite = {},
+                                    onClickFavorite = {
+                                        onClickFavorite(data)
+                                    },
                                     modifier = Modifier
                                         .padding(
                                             top = 16.dp,
@@ -177,9 +186,9 @@ fun MovieContent(
                             key = KeyConst.DETAIL_RATING_SECTION,
                             content = {
                                 RatingSection(
-                                    rating = data.rating,
-                                    releaseDate = data.releaseDate,
-                                    showTimeDuration = "${data.duration} " +
+                                    rating = data.uiRating,
+                                    releaseDate = data.uiReleaseDate,
+                                    showTimeDuration = "${data.runtime} " +
                                         stringResource(Res.string.label_minutes),
                                     modifier = Modifier
                                         .fillMaxWidth()

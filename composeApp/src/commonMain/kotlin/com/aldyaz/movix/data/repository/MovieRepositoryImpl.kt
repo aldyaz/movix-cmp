@@ -1,6 +1,7 @@
 package com.aldyaz.movix.data.repository
 
 import com.aldyaz.movix.core.domain.ResultState
+import com.aldyaz.movix.core.domain.exception.UnknownException
 import com.aldyaz.movix.core.network.HttpResult
 import com.aldyaz.movix.data.cloud.MovieCloudDataSource
 import com.aldyaz.movix.data.local.MovieLocalDataSource
@@ -100,9 +101,15 @@ class MovieRepositoryImpl(
         return movieLocalDataSource.checkFavorite(movieId)
     }
 
-    override fun saveFavorite(movie: MovieDomainModel) {
-        movieLocalDataSource.saveFavorite(
-            movieDomainToDbMapper(movie)
-        )
+    override fun saveFavorite(movie: MovieDomainModel): ResultState<Unit> {
+        return try {
+            ResultState.Success(
+                movieLocalDataSource.saveFavorite(
+                    movieDomainToDbMapper(movie)
+                )
+            )
+        } catch (err: Throwable) {
+            ResultState.Error(exception = UnknownException())
+        }
     }
 }
