@@ -12,6 +12,7 @@ class MovieItemToPresentationMapper : (MovieDomainModel) -> MovieItemPresentatio
             title = p1.title,
             posterPath = p1.posterPath,
             rating = p1.voteAverage.round(1),
+            ratingStar = p1.voteAverage.toFloat().div(2)
         )
     }
 }

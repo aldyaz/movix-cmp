@@ -5,4 +5,5 @@ data class MovieItemPresentationModel(
     val title: String = "",
     val posterPath: String = "",
     val rating: Double = 0.0,
+    val ratingStar: Float = 0f
 )
