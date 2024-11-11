@@ -5,5 +5,6 @@ data class MovieItemPresentationModel(
     val title: String = "",
     val posterPath: String = "",
     val rating: Double = 0.0,
-    val ratingStar: Float = 0f
+    val ratingStar: Float = 0f,
+    val genres: List<String> = emptyList()
 )
