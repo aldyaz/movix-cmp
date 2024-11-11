@@ -1,8 +1,10 @@
 package com.aldyaz.movix.ui.main
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
@@ -13,6 +15,6 @@ enum class MainTabType(
 
     HOME("Home", Icons.Filled.Home),
     SEARCH("Search", Icons.Filled.Search),
-    FAVORITE("Favorite", Icons.Filled.Favorite)
+    FAVORITE("Favorite", Icons.Filled.Bookmark)
 
 }
