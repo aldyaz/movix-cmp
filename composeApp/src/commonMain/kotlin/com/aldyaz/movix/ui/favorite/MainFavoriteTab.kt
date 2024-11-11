@@ -71,6 +71,7 @@ fun MainFavoriteTabContent(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(16.dp),
         modifier = modifier
     ) {
@@ -96,12 +97,10 @@ fun FavoriteMovieItem(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
             .clip(CardDefaults.shape)
             .background(CardDefaults.cardColors().containerColor)
             .clickable { onClick() }
-            .padding(16.dp)
     ) {
         KamelImage(
             resource = asyncPainterResource(
@@ -110,13 +109,14 @@ fun FavoriteMovieItem(
             contentDescription = movie.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .aspectRatio(4f / 3f)
-                .clip(CardDefaults.shape)
+                .aspectRatio(5f / 4f)
                 .weight(0.4f)
         )
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.weight(0.6f)
+            modifier = Modifier
+                .weight(0.6f)
+                .padding(16.dp)
         ) {
             Text(
                 text = movie.title,
