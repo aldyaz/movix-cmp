@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 
 class MainFavoriteTabViewModel(
-    private val getFavorites: GetFavoriteMoviesUseCase,
+    getFavorites: GetFavoriteMoviesUseCase,
     private val movieListToPresentationMapper: MovieListToPresentationMapper
 ) : BaseViewModel<MainFavoriteTabViewIntent>() {
 

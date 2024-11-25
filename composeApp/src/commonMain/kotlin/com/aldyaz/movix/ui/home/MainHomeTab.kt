@@ -3,16 +3,11 @@ package com.aldyaz.movix.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,14 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aldyaz.movix.common.ui.component.BasicCircularLoading
 import com.aldyaz.movix.common.ui.component.BasicError
-import com.aldyaz.movix.common.ui.component.ScreenEnterObserver
-import com.aldyaz.movix.presentation.intent.MainHomeTabViewIntent
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
-import com.aldyaz.movix.presentation.state.MainHomeTabState
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
 import com.aldyaz.movix.ui.common.component.MovieRowList
 import com.aldyaz.movix.ui.common.component.MovieSectionHeader
 import com.aldyaz.movix.ui.main.MainAppBar
+import com.aldyaz.movix.utils.KeyConst
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.label_now_playing
 import movixcmp.composeapp.generated.resources.label_popular
@@ -43,12 +36,14 @@ fun MainHomeTab(
     modifier: Modifier = Modifier,
     viewModel: MainHomeTabViewModel = koinViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    ScreenEnterObserver {
-        viewModel.onIntent(MainHomeTabViewIntent.OnEnter)
-    }
+    val nowPlayingState by viewModel.nowPlayingState.collectAsStateWithLifecycle()
+    val popularState by viewModel.popularState.collectAsStateWithLifecycle()
+    val topRatedState by viewModel.topRatedState.collectAsStateWithLifecycle()
+
     MainHomeTabScaffold(
-        uiState = uiState,
+        nowPlayingState = nowPlayingState,
+        popularState = popularState,
+        topRatedState = topRatedState,
         onSearchClick = {},
         onNavigateToDetail = onNavigateToDetail,
         modifier = modifier
@@ -57,7 +52,9 @@ fun MainHomeTab(
 
 @Composable
 fun MainHomeTabScaffold(
-    uiState: MainHomeTabState,
+    nowPlayingState: DiscoverMovieState,
+    popularState: DiscoverMovieState,
+    topRatedState: DiscoverMovieState,
     onSearchClick: () -> Unit,
     onNavigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -73,11 +70,13 @@ fun MainHomeTabScaffold(
         modifier = modifier,
         content = { contentPadding ->
             MainHomeTabContent(
+                nowPlayingState = nowPlayingState,
+                popularState = popularState,
+                topRatedState = topRatedState,
+                onClickItem = onNavigateToDetail,
                 modifier = Modifier
                     .padding(contentPadding)
-                    .fillMaxSize(),
-                uiState = uiState,
-                onClickItem = onNavigateToDetail
+                    .fillMaxSize()
             )
         }
     )
@@ -85,7 +84,9 @@ fun MainHomeTabScaffold(
 
 @Composable
 fun MainHomeTabContent(
-    uiState: MainHomeTabState,
+    nowPlayingState: DiscoverMovieState,
+    popularState: DiscoverMovieState,
+    topRatedState: DiscoverMovieState,
     onClickItem: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -93,34 +94,32 @@ fun MainHomeTabContent(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
+        item(KeyConst.DISCOVER_NOW_PLAYING) {
             DiscoverSection(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(Res.string.label_now_playing),
-                state = uiState.nowPlaying,
+                state = nowPlayingState,
                 onClickMore = {},
                 onClickItem = onClickItem
             )
         }
-        item {
+        item(KeyConst.DISCOVER_POPULAR) {
             DiscoverSection(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(Res.string.label_popular),
-                state = uiState.popular,
+                state = popularState,
                 onClickMore = {},
                 onClickItem = onClickItem
             )
         }
-        item {
+        item(KeyConst.DISCOVER_TOP_RATED) {
             DiscoverSection(
                 modifier = Modifier.fillMaxWidth(),
                 title = stringResource(Res.string.label_top_rated),
-                state = uiState.topRated,
+                state = topRatedState,
                 onClickMore = {},
                 onClickItem = onClickItem
             )
-        }
-        item {
             Spacer(modifier = Modifier.height(16.dp))
         }
     }

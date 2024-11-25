@@ -1,6 +1,5 @@
 package com.aldyaz.movix.ui.main
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -21,18 +20,26 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.Snapshot
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.aldyaz.movix.navigation.DetailScreen
 import com.aldyaz.movix.navigation.LocalNavigator
-import com.aldyaz.movix.presentation.viewmodel.MainViewModel
-import com.aldyaz.movix.ui.favorite.MainFavoriteTab
-import com.aldyaz.movix.ui.home.MainHomeTab
-import com.aldyaz.movix.ui.search.MainSearchTab
+import com.aldyaz.movix.navigation.MainPageUiFactory
+import com.aldyaz.movix.navigation.MainScreen
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuit.runtime.Navigator
+import com.slack.circuit.runtime.popUntil
+import com.slack.circuit.runtime.screen.Screen
 import movixcmp.composeapp.generated.resources.Res
 import movixcmp.composeapp.generated.resources.app_name
 import movixcmp.composeapp.generated.resources.label_search_descriptor
@@ -40,19 +47,15 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MainPage(
-    viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
     val navigator = LocalNavigator.current
-    val selectedTab by viewModel.selectedTab
     val tabs by remember {
         mutableStateOf(enumValues<MainTabType>())
     }
 
     MainScaffold(
         tabs = tabs,
-        selectedTab = selectedTab,
-        onSelectTab = viewModel::selectTab,
         onNavigateToDetail = {
             navigator.goTo(
                 DetailScreen(
@@ -67,47 +70,58 @@ fun MainPage(
 @Composable
 private fun MainScaffold(
     tabs: Array<MainTabType>,
-    selectedTab: MainTabType,
-    onSelectTab: (MainTabType) -> Unit,
     onNavigateToDetail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val uiFactory = remember {
+        MainPageUiFactory(
+            onNavigateToDetail = onNavigateToDetail
+        )
+    }
+    val circuit = Circuit.Builder()
+        .addUiFactory(uiFactory)
+        .build()
+    val backStack = rememberSaveableBackStack(root = MainScreen.HomeTab)
+    val mainNavigator = rememberCircuitNavigator(
+        backStack = backStack,
+        onRootPop = {}
+    )
+    val rootScreen by remember(backStack) {
+        derivedStateOf {
+            backStack.last().screen
+        }
+    }
+
     Scaffold(
         bottomBar = {
             MainNavigationBar(
                 tabs = tabs,
-                selected = { it == selectedTab },
-                onSelectTab = onSelectTab
+                selected = {
+                    it.screen == rootScreen
+                },
+                onSelectTab = {
+                    mainNavigator.resetRootIfDifferent(
+                        screen = it.screen,
+                        saveState = true,
+                        restoreState = true
+                    )
+                }
             )
         },
         content = { contentPadding ->
+
             val contentModifier = modifier
                 .padding(contentPadding)
                 .fillMaxSize()
-            Crossfade(
-                targetState = selectedTab,
-                label = selectedTab.title,
-                content = { type ->
-                    when (type) {
-                        MainTabType.HOME -> {
-                            MainHomeTab(
-                                onNavigateToDetail = onNavigateToDetail,
-                                modifier = contentModifier
-                            )
-                        }
 
-                        MainTabType.SEARCH -> {
-                            MainSearchTab(
-                                modifier = contentModifier
-                            )
-                        }
-
-                        MainTabType.FAVORITE -> {
-                            MainFavoriteTab(
-                                modifier = contentModifier
-                            )
-                        }
-                    }
+            CircuitCompositionLocals(
+                circuit = circuit,
+                content = {
+                    NavigableCircuitContent(
+                        navigator = mainNavigator,
+                        backStack = backStack,
+                        modifier = contentModifier
+                    )
                 }
             )
         }
@@ -183,5 +197,21 @@ fun MainNavigationBar(
                 modifier = Modifier.navigationBarsPadding()
             )
         }
+    }
+}
+
+private fun Navigator.resetRootIfDifferent(
+    screen: Screen,
+    saveState: Boolean = false,
+    restoreState: Boolean = false,
+) {
+    val backStack = peekBackStack()
+
+    if (backStack.lastOrNull() == screen) {
+        Snapshot.withMutableSnapshot {
+            popUntil { peekBackStack().size == 1 }
+        }
+    } else {
+        resetRoot(screen, saveState, restoreState)
     }
 }

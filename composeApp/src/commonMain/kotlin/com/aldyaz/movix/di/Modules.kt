@@ -36,7 +36,6 @@ import com.aldyaz.movix.presentation.mapper.MovieListToPresentationMapper
 import com.aldyaz.movix.presentation.mapper.MoviePresentationToDomainMapper
 import com.aldyaz.movix.presentation.viewmodel.MainFavoriteTabViewModel
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
-import com.aldyaz.movix.presentation.viewmodel.MainViewModel
 import com.aldyaz.movix.presentation.viewmodel.MovieDetailViewModel
 import com.aldyaz.movix.source.remote.MovixRemoteService
 import com.aldyaz.movix.source.remote.MovixRemoteServiceImpl
@@ -93,7 +92,6 @@ val presentationModule = module {
     factoryOf(::MovieListToPresentationMapper)
     factoryOf(::MovieDomainToPresentationMapper)
     factoryOf(::MoviePresentationToDomainMapper)
-    viewModelOf(::MainViewModel)
     viewModelOf(::MainHomeTabViewModel)
     viewModelOf(::MovieDetailViewModel)
     viewModelOf(::MainFavoriteTabViewModel)

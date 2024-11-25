@@ -15,7 +15,6 @@ class CircuitUiFactory : Ui.Factory {
         return when (screen) {
             is MainScreen -> ui<CircuitUiState> { _, modifier ->
                 MainPage(
-                    viewModel = koinViewModel(),
                     modifier = modifier
                 )
             }

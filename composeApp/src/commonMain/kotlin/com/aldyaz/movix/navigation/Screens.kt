@@ -6,7 +6,17 @@ import com.slack.circuit.runtime.screen.StaticScreen
 abstract class MovixScreen : StaticScreen
 
 @Parcelize
-data object MainScreen : MovixScreen()
+data object MainScreen : MovixScreen() {
+
+    @Parcelize
+    data object HomeTab : MovixScreen()
+
+    @Parcelize
+    data object SearchTab : MovixScreen()
+
+    @Parcelize
+    data object FavoriteTab : MovixScreen()
+}
 
 @Parcelize
 data object MainHomePage : MovixScreen()
