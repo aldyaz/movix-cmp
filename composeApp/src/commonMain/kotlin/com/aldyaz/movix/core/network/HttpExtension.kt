@@ -4,6 +4,8 @@ import com.aldyaz.movix.core.exception.BadRequestException
 import com.aldyaz.movix.core.exception.HttpException
 import com.aldyaz.movix.core.exception.InternalServerException
 import io.ktor.client.call.body
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
@@ -31,7 +33,7 @@ suspend inline fun <reified T> apiCall(
             else -> HttpException(description)
         }
     }
-} catch (e: IOException) {
+} catch (e: Throwable) {
     throw HttpException(
         message = e.message?.let {
             it.ifEmpty { HttpException.DEFAULT_ERROR_MESSAGE }

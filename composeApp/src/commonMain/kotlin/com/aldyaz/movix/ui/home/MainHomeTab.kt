@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aldyaz.movix.common.ui.component.BasicCircularLoading
 import com.aldyaz.movix.common.ui.component.BasicError
+import com.aldyaz.movix.presentation.intent.MainHomeTabViewIntent
 import com.aldyaz.movix.presentation.state.DiscoverMovieState
 import com.aldyaz.movix.presentation.viewmodel.MainHomeTabViewModel
 import com.aldyaz.movix.ui.common.component.MovieRowList
@@ -46,6 +47,7 @@ fun MainHomeTab(
         topRatedState = topRatedState,
         onSearchClick = {},
         onNavigateToDetail = onNavigateToDetail,
+        onIntent = viewModel::onIntent,
         modifier = modifier
     )
 }
@@ -57,6 +59,7 @@ fun MainHomeTabScaffold(
     topRatedState: DiscoverMovieState,
     onSearchClick: () -> Unit,
     onNavigateToDetail: (Long) -> Unit,
+    onIntent: (MainHomeTabViewIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -74,6 +77,7 @@ fun MainHomeTabScaffold(
                 popularState = popularState,
                 topRatedState = topRatedState,
                 onClickItem = onNavigateToDetail,
+                onIntent = onIntent,
                 modifier = Modifier
                     .padding(contentPadding)
                     .fillMaxSize()
@@ -88,6 +92,7 @@ fun MainHomeTabContent(
     popularState: DiscoverMovieState,
     topRatedState: DiscoverMovieState,
     onClickItem: (Long) -> Unit,
+    onIntent: (MainHomeTabViewIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -100,7 +105,10 @@ fun MainHomeTabContent(
                 title = stringResource(Res.string.label_now_playing),
                 state = nowPlayingState,
                 onClickMore = {},
-                onClickItem = onClickItem
+                onClickItem = onClickItem,
+                onRetryClick = {
+                    onIntent(MainHomeTabViewIntent.NowPlayingRefresh)
+                }
             )
         }
         item(KeyConst.DISCOVER_POPULAR) {
@@ -109,7 +117,10 @@ fun MainHomeTabContent(
                 title = stringResource(Res.string.label_popular),
                 state = popularState,
                 onClickMore = {},
-                onClickItem = onClickItem
+                onClickItem = onClickItem,
+                onRetryClick = {
+                    onIntent(MainHomeTabViewIntent.PopularRefresh)
+                }
             )
         }
         item(KeyConst.DISCOVER_TOP_RATED) {
@@ -118,7 +129,10 @@ fun MainHomeTabContent(
                 title = stringResource(Res.string.label_top_rated),
                 state = topRatedState,
                 onClickMore = {},
-                onClickItem = onClickItem
+                onClickItem = onClickItem,
+                onRetryClick = {
+                    onIntent(MainHomeTabViewIntent.TopRatedRefresh)
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -131,6 +145,7 @@ fun DiscoverSection(
     state: DiscoverMovieState,
     onClickMore: () -> Unit,
     onClickItem: (Long) -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -148,10 +163,10 @@ fun DiscoverSection(
 
             state.error -> BasicError(
                 modifier = Modifier.aspectRatio(4 / 3f),
-                onRetryClick = {}
+                onRetryClick = onRetryClick
             )
 
-            else -> MovieRowList(
+            state.success -> MovieRowList(
                 items = state.movies,
                 onClickItem = onClickItem
             )
